@@ -1,0 +1,53 @@
+# Code to run PPS on FBD output (based on adequaSSE code)
+# Orlando Schwery, 13. April 2022
+
+# Settings
+rep = 0  # which set to use
+current_model = 1  # sets model to use, see below
+
+# mcmc settings are taken care of in model files...
+# do we have sim conditions?
+
+# the model used for PPS
+models = ["TEFBD", "unpart"]
+proposed_model = models[current_model]
+
+# input/output directories
+# if we want to use the model files as they are on the drive right now, we should execute this from that directory, e.g.:
+# "Documents/drive/PosteriorPredictive/time_homo_ants/"
+
+# these are actually not needed now if we run this from the dir above
+# input_dir = "Documents/drive/PosteriorPredictive/time_homo_ants/"
+# output_dir = "output/" + scenario + "/" + proposed_model + "/"
+output_dir = "PPS_output/"
+file_stem = "antsSA"
+
+# though this means we'd have to start in the rep dir we're currently running as well, which isn't optimal...
+
+# which part of the analysis should be run?
+plot_model = TRUE
+run_pp_sims = TRUE
+
+print("Done settings.")
+
+# load Models
+source("scripts/mcmc_" + proposed_model + ".Rev")  # loads MCMC script, which should load the other relevant ones, e.g. tree prior, relaxed clock, substitution model, and data...
+print("Done loading Model.")
+
+# plot DAG
+if (plot_model == TRUE) {
+  mymodel.graph(proposed_model + ".dot")
+  print("Done printing model. See: " + proposed_model + ".dot")
+}
+
+
+# run PPS
+print("Load trace...")
+trace = readStochasticVariableTrace("output/" + file_stem + ".var") # it might require the .var file, which we don't have rn
+# trees =  # it would seem that we'd need the trees as well, but not sure if it'll take it...
+print("Set up PPS...")
+pps = posteriorPredictiveSimulation(mymodel, directory=output_dir, trace)
+print("Running posterior predictive simulations...")
+pps.run()
+
+print("Done.")

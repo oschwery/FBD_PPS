@@ -1,0 +1,53 @@
+################################################################################
+#
+# RevBayes Example: Bayesian inference of phylogeny using a general time reversible model
+#                   with gamma distributed rate variation among sites
+# 
+# This file: Runs the full MCMC on a single gene under the general time reversible 
+#            substitution model using an unconstrained non-clock tree.
+#
+# authors: Sebastian Hoehna, Michael Landis, Tracy A. Heath and Brian R. Moore
+#
+################################################################################
+
+######################
+# Substitution Model #
+######################
+
+
+for (i in 1:n_data_subsets) {
+	er_prior[i] <- v(1,1,1,1,1,1)
+    # exchangeability rates for partition i
+    er[i] ~ dnDirichlet(er_prior[i])
+    moves[++mvi] = mvSimplexElementScale(er[i], alpha=10, tune=true, weight=3) 
+
+    # stationary frequencies for partition i
+    pi_prior[i] <- v(1,1,1,1)
+    pi[i] ~ dnDirichlet(pi_prior[i])
+    moves[++mvi] = mvSimplexElementScale(pi[i], alpha=10, tune=true, weight=2) 
+
+    # rate matrix for partition i
+    Q[i] := fnGTR(er[i],pi[i]) 
+  
+    # +Gamma for partition i
+    alpha_prior_mean[i] <- 5.0
+    alpha_prior_sd[i] <- 0.587405
+    alpha[i] ~ dnLognormal( alpha_prior_mean[i], alpha_prior_sd[i] )
+    gamma_rates[i] := fnDiscretizeGamma( alpha[i], alpha[i], 4, false )
+
+    # add moves for the alpha parameter
+    moves[++mvi] = mvScale(alpha[i],weight=2)
+
+    # the probability of a site being invariable
+    pinvar[i] ~ dnBeta(1,1)
+    moves[++mvi] = mvScale(pinvar[i], lambda=0.1, tune=true, weight=2.0)
+    moves[++mvi] = mvSlide(pinvar[i], delta=0.1, tune=true, weight=2.0)
+
+}
+
+# the sequence evolution model
+for (i in 1:n_data_subsets) {
+    phyloSeq[i] ~ dnPhyloCTMC(tree=fbd_tree, Q=Q[i], siteRates=gamma_rates[i], pInv=pinvar[i], branchRates=branch_rates, type="DNA")
+    phyloSeq[i].clamp(data[i])
+}
+

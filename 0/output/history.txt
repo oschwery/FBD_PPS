@@ -1,0 +1,3 @@
+ trace = readTreeTrace("antsSA.trees", burnin = .25)
+mccTree(trace, "1.mcc.tre")
+q()
