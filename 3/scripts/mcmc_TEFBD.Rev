@@ -76,7 +76,7 @@ monitors.append( mnScreen(printgen=10,  num_samp_anc, origin_time))
 #monitors.append( mnScreen(printgen=10)
 
 # 4. the .var file for the stochastic variables (should include the tree)
-monitors[mni++] = mnStochasticVariable(filename="output/antsSA.var", printgen=10)
+monitors.append( mnStochasticVariable(filename="output/antsSA.var", printgen=10))
 
 # Initialize the MCMC object #
 mymcmc = mcmc(mymodel, monitors, moves)
