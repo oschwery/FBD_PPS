@@ -49,6 +49,7 @@ trace = readStochasticVariableTrace(trace_dir + file_stem + ".var") # it might r
 print("Set up PPS...")
 pps = posteriorPredictiveSimulation(mymodel, directory=output_dir, trace)
 print("Running posterior predictive simulations...")
-pps.run()
+thin = gens/200
+pps.run(thin)
 
 print("Done.")
