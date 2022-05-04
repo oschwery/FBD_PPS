@@ -11,6 +11,9 @@
 #######################
 # Reading in the Data #
 #######################
+# mcmc generations
+gens = 2000000
+
 # Create the full list of taxa (including all fossils and extant species #
 taxa <- readTaxonData("Data/taxa.tsv")
 
@@ -67,11 +70,15 @@ monitors[mni++] = mnFile(filename="output/antsSA.trees", printgen=10, fbd_tree)
 # 3. and a few select parameters to be printed to the screen #
 monitors[mni++] = mnScreen(printgen=10,  num_samp_anc, origin_time)
 #monitors[mni++] = mnScreen(printgen=10)
+
+# 4. the .var file for the stochastic variables (should include the tree)
+monitors[mni++] = mnStochasticVariable(filename="output/antsSA.var", printgen=10)
+
 # Initialize the MCMC object #
 mymcmc = mcmc(mymodel, monitors, moves)
 
 # Run the MCMC #
-#mymcmc.run(generations=200000)
+#mymcmc.run(generations=gens)
 
 # Quit RevBayes #
 #q()

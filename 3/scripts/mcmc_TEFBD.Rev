@@ -11,6 +11,9 @@
 #######################
 # Reading in the Data #
 #######################
+# mcmc generations
+gens = 2000000
+
 # Create the full list of taxa (including all fossils and extant species #
 taxa <- readTaxonData("Data/taxa.tsv")
 
@@ -56,7 +59,7 @@ source("scripts/model_Morph_TEFBD.Rev") # Morphological character change model
 # MCMC #
 ########
 
-# initialize the model object #
+# initialize the model object
 mymodel = model(rates_cytb[i])
 # Create a vector of monitors #
 # 1. for the full model #
@@ -71,11 +74,15 @@ monitors.append( mnFile(filename="output/skyline.trees", printgen=10, fbd_tree))
 # 3. and a few select parameters to be printed to the screen #
 monitors.append( mnScreen(printgen=10,  num_samp_anc, origin_time))
 #monitors.append( mnScreen(printgen=10)
+
+# 4. the .var file for the stochastic variables (should include the tree)
+monitors[mni++] = mnStochasticVariable(filename="output/antsSA.var", printgen=10)
+
 # Initialize the MCMC object #
 mymcmc = mcmc(mymodel, monitors, moves)
 
 # Run the MCMC #
-# mymcmc.run(generations=2000000)
+# mymcmc.run(generations=gens)
 
 # Quit RevBayes #
 # q()
