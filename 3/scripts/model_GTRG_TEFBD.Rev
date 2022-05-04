@@ -1,0 +1,36 @@
+#####################################
+# GTR+G nucleotide substitution model #
+#####################################
+for (i in 1:n_data_subsets) {
+# Initialize the parameters of substitution matrix #
+# Both the stationary frequencies and exchangeability rates #
+# are drawn from uniform Dirichlet distributions #
+
+# First the stationary frequencies #
+sf_hp[i] <- v(1.0,1.0,1.0,1.0)
+sf[i] ~ dnDirichlet(sf_hp[i])
+
+# Then the exchangeability rates #
+    er_prior[i] <- v(1,1,1,1,1,1)
+    er[i] ~ dnDirichlet(er_prior[i])
+
+moves.append( mvSimplexElementScale(er[i], alpha=10.0, weight=5.0))
+moves.append( mvSimplexElementScale(sf[i], alpha=10.0, weight=5.0))
+
+# Create the matrix #
+Q_mol[i] := fnGTR(er[i],sf[i])
+
+# Create a discretized gamma distribution of rate categories  #
+# the shape parameter is drawn from an exponential prior #
+alpha_cytb[i] ~ dnExponential( 1.0 )
+
+moves.append( mvScale(alpha_cytb[i], lambda=0.01, weight=1.0))
+moves.append( mvScale(alpha_cytb[i], lambda=0.1,  weight=1.0))
+moves.append( mvScale(alpha_cytb[i], lambda=1,    weight=1.0))
+
+rates_cytb[i] := fnDiscretizeGamma( alpha_cytb[i], alpha_cytb[i], 4 )
+
+### Create the substitution model and clamp with our observed DNA data ###
+phySeq[i] ~ dnPhyloCTMC(tree=fbd_tree, Q=Q_mol[i], siteRates=rates_cytb[i], branchRates=branch_rates[i], type="DNA")
+phySeq[i].clamp(data[i])
+}
