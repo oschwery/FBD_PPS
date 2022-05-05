@@ -85,4 +85,4 @@ moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=5.0)
 # Monitor the number of sampled ancestors in the FBD-tree #
 num_samp_anc := fbd_tree.numSampledAncestors();
 
-age_extant := tmrca(fbd_tree, small)
+#age_extant := tmrca(fbd_tree, small)
