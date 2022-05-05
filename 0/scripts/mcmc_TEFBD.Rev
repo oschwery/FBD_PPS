@@ -12,7 +12,7 @@
 # Reading in the Data #
 #######################
 # mcmc generations
-gens = 2000000
+gens = 200000
 
 # Create the full list of taxa (including all fossils and extant species #
 taxa <- readTaxonData("Data/taxa.tsv")
@@ -78,7 +78,7 @@ monitors[mni++] = mnStochasticVariable(filename="output/antsSA.var", printgen=10
 mymcmc = mcmc(mymodel, monitors, moves)
 
 # Run the MCMC #
-#mymcmc.run(generations=gens)
+mymcmc.run(generations=gens)
 
 # Quit RevBayes #
-#q()
+q()
