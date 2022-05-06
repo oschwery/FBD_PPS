@@ -64,7 +64,7 @@ fbd_tree ~ dnConstrainedTopology(fbd_dist, constraints)
 #fbd_tree.setValue(starting_tree)
 
 # Specify mclade(taxon))
-intervals = readDataDelimitedFile(file="Data/ran1.tsv", header=true)
+intervals = readDataDelimitedFile(file="Data/ran.tsv", header=true)
 
 for(i in 1:intervals.size())
 {
