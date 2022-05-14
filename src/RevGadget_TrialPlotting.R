@@ -35,13 +35,13 @@ for (i in 1:length(traces)) {
 # }
 
 # parameters of interest
-params_all <- c("Posterior", "Likelihood", "alpha_morpho", "diversification", "extinction_rate", "origin_time", "speciation_rate", "turnover")
+params_all <- c("Posterior", "Likelihood", "alpha_morpho", "speciation_rate", "extinction_rate", "diversification", "turnover","origin_time")
 
 params_overall <- c("Posterior", "Likelihood")
 
 params_morpho <- c("alpha_morpho")
 
-params_divrates <- c("diversification", "extinction_rate", "speciation_rate", "turnover")
+params_divrates <- c("speciation_rate", "extinction_rate", "diversification", "turnover")
 
 params_age <- c("origin_time")
 
@@ -87,7 +87,8 @@ prep_plots <- function(traces, daparams) {
     daplotz <- list()
     for (i in 1:length(traces)) {
         daplotz[[i]] <- plotTrace(traces[[i]], vars=daparams)[[1]] +
-        coord_cartesian(xlim=c(damins, damaxs))
+        coord_cartesian(xlim=c(damins, damaxs)) +
+        ggtitle(scenarios[i])
     }
     return(daplotz)
 }
@@ -126,4 +127,17 @@ pdf(file="TimeHomo_TrialPosteriors.pdf", width=30, height=25)
 dev.off()
 
 
+# getESS
 
+EffSize <- c()
+for (j in 1:length(params_all)) {
+    ESS <- c()
+    for (i in 1:length(tracesMCMC)) {
+        ESS <- c(ESS, effectiveSize(tracesMCMC[[i]][, params_all[j]]))
+    }
+    EffSize <- cbind(EffSize, ESS)
+}
+colnames(EffSize) <- params_all
+rownames(EffSize) <- scenarios
+
+write.csv(EffSize, file="ESS_TimeHomo_Trials.csv")
