@@ -12,7 +12,7 @@
 # Reading in the Data #
 #######################
 # mcmc generations
-gens = 200000
+gens = 1000000
 
 # Create the full list of taxa (including all fossils and extant species #
 taxa <- readTaxonData("Data/taxa.tsv")
@@ -77,8 +77,19 @@ monitors[mni++] = mnStochasticVariable(filename="output/antsSA.var", printgen=10
 # Initialize the MCMC object #
 mymcmc = mcmc(mymodel, monitors, moves)
 
+mymodel.graph("time_homo_4.dot")
+
+# Run Burnin and tuning
+mymcmc.burnin(generations=2000, tuningInterval=200)
+
+# Check acceptance rates
+#mymcmc.operatorSummary()
+
 # Run the MCMC #
 mymcmc.run(generations=gens)
 
+# Check acceptance rates
+mymcmc.operatorSummary()
+
 # Quit RevBayes #
-q()
+#q()

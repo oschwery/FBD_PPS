@@ -3,9 +3,10 @@
 ##########################################################################################
 
 
-# Define a exponential priors on the birth rate and death rate #
+# Define a exponential priors on the birth rate and turnover #
 speciation_rate ~  dnExponential(10)
-extinction_rate ~  dnExponential(10)
+turnover ~ dnExponential(10)
+#extinction_rate ~  dnExponential(10)
 
 # Specify a scale move on the speciation_rate parameter #
 # This move will be applied with 3 different tuning values (lambda) to help improve mixing #
@@ -15,13 +16,14 @@ moves[mvi++] = mvScale(speciation_rate, lambda=1.0,  weight=1)
 
 # Specify a sliding-window move on the extinction_rate parameter #
 # This move will be applied with 3 different window widths (delta) to help improve mixing #
-moves[mvi++] = mvScale(extinction_rate, lambda=0.01, weight=1)
-moves[mvi++] = mvScale(extinction_rate, lambda=0.1,  weight=1)
-moves[mvi++] = mvScale(extinction_rate, lambda=1, weight=1)
+moves[mvi++] = mvScale(turnover, lambda=0.01, weight=1)
+moves[mvi++] = mvScale(turnover, lambda=0.1,  weight=1)
+moves[mvi++] = mvScale(turnover, lambda=1, weight=1)
 
-# Create deterministic nodes for the diversification and turnover rates so that they can be monitored #
+# Create deterministic nodes for extinction and diversification rates so that they can be monitored #
+extinction_rate := turnover * speciation_rate
 diversification := speciation_rate - extinction_rate
-turnover := extinction_rate/speciation_rate
+#turnover := extinction_rate/speciation_rate
 
 # Fix the probability of sampling parameter (rho) to 1, #
 # because all extant bears are represented in this analysis #
@@ -79,7 +81,12 @@ for(i in 1:intervals.size())
 }
 # Add a move to sample the fossil times #
 moves[mvi++] = mvFossilTimeSlideUniform(fbd_tree, origin_time, weight=5.0)
-moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=5.0)
+moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=15.0)
+
+# Add tree moves
+moves[mvi++] = mvFNPR(fbd_tree, weight=30)
+moves[mvi++] = mvNodeTimeSlideUniform(fbd_tree, weight=40)
+moves[mvi++] = mvRootTimeSlideUniform(fbd_tree, origin_time, weight=5)
 
 ### Create deterministic nodes to monitor various tree statistics ###
 # Monitor the number of sampled ancestors in the FBD-tree #
