@@ -86,7 +86,7 @@ moves[mvi++] = mvFossilTimeSlideUniform(fbd_tree, origin_time, weight=5.0)
 # Add tree moves
 #moves[mvi++] = mvFNPR(fbd_tree, weight=30)
 moves[mvi++] = mvNNI(fbd_tree, weight=n_branches/2)
-moves[mvi++] = mvSPR(fbd_tree, weight=n_branches/2)
+#moves[mvi++] = mvSPR(fbd_tree, weight=n_branches/2)
 moves[mvi++] = mvNodeTimeSlideUniform(fbd_tree, weight=40)
 moves[mvi++] = mvRootTimeSlideUniform(fbd_tree, origin_time, weight=5)
 
