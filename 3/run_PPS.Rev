@@ -6,6 +6,10 @@ rep = 3  # which set to use
 current_model = 1  # sets model to use, see below
 trace_dir = "output2/" # sets where to look for traces, since skyline has several locations
 
+###
+# Make sure run mcmc and
+###
+
 # mcmc settings are taken care of in model files...
 # do we have sim conditions?
 
@@ -49,7 +53,10 @@ trace = readStochasticVariableTrace(trace_dir + file_stem + ".var") # it might r
 print("Set up PPS...")
 pps = posteriorPredictiveSimulation(mymodel, directory=output_dir, trace)
 print("Running posterior predictive simulations...")
-thin = gens/200
-pps.run(thin)
+# thin = gens/200
+thin = trace[1].size()/200
+print(thin)
+
+pps.run(round(thin))
 
 print("Done.")
