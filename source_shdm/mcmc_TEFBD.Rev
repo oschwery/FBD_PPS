@@ -1,0 +1,67 @@
+################################################################################
+#
+# RevBayes Example: Total-evidence dating under the fossilized birth-death model
+#
+# This file: Runs the full MCMC ...
+#
+# authors: Tracy A. Heath, Walker C. Pett, April M. Wright
+#
+################################################################################
+
+#######################
+# Reading in the Data #
+#######################
+# Create the full list of taxa (including all fossils and extant species #
+taxa <- readTaxonData("Data/taxa.tsv")
+
+# Import the molecular sequences #
+# this file contains only the taxa for which sequence data are available #
+filenames <- v("Data/18s.nex", "Data/28s.nex", "Data/ABD.nex","Data/Arg.nex", "Data/CAD.nex", "Data/EF1.nex", "Data/EF2.nex", "Data/lg.nex", "Data/WG.nex")
+#filenames <- v("18s.nex", "28s.nex")
+
+n_data_subsets <- filenames.size()
+for (i in 1:n_data_subsets) {
+   data[i] = readDiscreteCharacterData(filenames[i])
+}
+
+# Import the morphological character matrix #
+# this file contains only the taxa for which morphological characters are available #
+morpho <- readDiscreteCharacterData("Data/AntMegaMatrixMinusAmbig.nex")
+
+# Add the missing taxa to each data partition #
+for (i in 1:n_data_subsets) {
+    data[i].addMissingTaxa( taxa )
+}
+
+morpho.addMissingTaxa( taxa )
+
+#starting_tree <- readTrees("Data/MAP.tre")[1]
+
+## helpers
+moves = VectorMoves()
+monitors = VectorMonitors()
+
+n_taxa <- taxa.size()
+n_branches <- 2 * n_taxa - 2
+# Load the model files
+source("scripts/shdm/model_FBDP_TEFBD.Rev")
+source("scripts/shdm/model_UExp_TEFBD.Rev") # UExp relaxed clock
+source("scripts/shdm/model_GTRG_TEFBD.Rev") # Molecular substitution model (GTR+G)
+source("scripts/shdm/model_Morph_TEFBD.Rev") # Morphological character change model
+
+
+########
+# MCMC #
+########
+
+mymodel = model(fbd_tree)
+
+monitors.append(mnModel(filename="shdm/output/ants_dated.log", printgen=10))
+
+monitors.append(mnFile(filename="shdm/output/ants_dated.trees", printgen=10, fbd_tree))
+
+monitors.append(mnScreen(printgen=10, num_samp_anc, origin_time))
+
+mymcmc = mcmc(mymodel, monitors, moves)
+mymcmc.run(generations=1000000)
+q()
