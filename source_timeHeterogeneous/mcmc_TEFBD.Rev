@@ -1,0 +1,74 @@
+################################################################################
+#
+# RevBayes Example: Total-evidence dating under the fossilized birth-death model
+#
+# This file: Runs the full MCMC ...
+#
+# authors: Tracy A. Heath, Walker C. Pett, April M. Wright
+#
+################################################################################
+
+#######################
+# Reading in the data #
+#######################
+# Create the full list of taxa (including all fossils and extant species #
+taxa <- readTaxonData("data/final_tip_ages.tsv")
+
+filenames <- v("data/Mol/18s.aln.nex", "data/Mol/28s.aln.nex", "data/Mol/ABD.aln.nex",
+"data/Mol/Arg.aln.nex", "data/Mol/CAD.aln.nex", "data/Mol/EF1.aln.nex", "data/Mol/EF2.aln.nex",
+"data/Mol/lg.aln.nex")
+
+n_data_subsets <- filenames.size()
+for (i in 1:n_data_subsets) {
+   data[i] = readDiscreteCharacterData(filenames[i])
+}
+
+# Import the morphological character matrix #
+# this file contains only the taxa for which morphological characters are available #
+morpho <- readDiscreteCharacterData("data/Morph/AntMegaMatrixMinusAmbig.nex")
+
+# Add the missing taxa to each data partition #
+for (i in 1:n_data_subsets) {
+    data[i].addMissingTaxa( taxa )
+}
+
+morpho.addMissingTaxa( taxa )
+
+## helpers
+mvi = 1
+n_taxa <- taxa.size()
+
+# Load the model files
+
+source("scripts/april_foss/model_FBDP_TEFBD.Rev") # FBD tree prior
+source("scripts/april_foss/model_UExp_TEFBD.Rev") # UExp relaxed clock
+
+source("scripts/april_foss/model_GTRG_TEFBD.Rev") # Molecular substitution model (GTR+G)
+
+source("scripts/april_foss/model_Morph_TEFBD.Rev") # Morphological character change model
+
+
+########
+# MCMC #
+########
+
+# initialize the model object #
+mymodel = model(origin_time)
+
+mni = 1
+
+# Create a vector of monitors #
+# 1. for the full model #
+monitors[mni++] = mnModel(filename="output/april_foss.log", printgen=10)
+monitors[mni++] = mnFile(filename="output/april_foss.trees", printgen=10, fbd_tree)
+monitors[mni++] = mnStochasticVariable(filename="output/papril_foss.stoch.log", printgen=10)
+monitors[mni++] = mnScreen(printgen=10, num_samp_anc, origin_time)
+# Initialize the MCMC object #
+mymcmc = mcmc(mymodel, monitors, moves)
+#trace = readStochasticVariableTrace(file="output/april_foss.stoch.log")
+#mymcmc.initializeFromTrace(trace)
+# Run the MCMC #
+mymcmc.run(generations=500000)
+
+# Quit RevBayes #
+q()

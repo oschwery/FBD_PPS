@@ -1,0 +1,99 @@
+##########################################################################################
+# Joint Fossilized Birth-Death Process prior on the topology and fossil occurrence times #
+##########################################################################################
+timeline <- v(39, 59, 79)
+
+alpha <- 10
+rho <- .0461
+
+
+mu ~ dnExp(alpha)
+
+moves[mvi++] = mvScale(mu, lambda = 0.01)
+moves[mvi++] = mvScale(mu, lambda = 0.1)
+moves[mvi++] = mvScale(mu, lambda = 1)
+
+lambda ~ dnExp(alpha)
+
+moves[mvi++] = mvScale(lambda, lambda = 0.01)
+moves[mvi++] = mvScale(lambda, lambda = 0.1)
+moves[mvi++] = mvScale(lambda, lambda = 1)
+
+
+origin_time ~ dnUnif(100, 200)
+
+
+# Specify a sliding-window move on the origin_time parameter #
+# This move will be applied with 3 different window widths (delta) to help improve mixing #
+
+moves[mvi++] = mvSlide(origin_time, delta=0.01, weight=5.0)
+moves[mvi++] = mvSlide(origin_time, delta=0.1,  weight=5.0)
+moves[mvi++] = mvSlide(origin_time, delta=1,    weight=5.0)
+
+
+for(i in 1:(timeline.size() + 1))
+{
+    i
+
+    psi[i] ~ dnExp(alpha)
+
+
+    moves[mvi++] = mvScale(psi[i], lambda = 0.01)
+    moves[mvi++] = mvScale(psi[i], lambda = 0.1)
+    moves[mvi++] = mvScale(psi[i], lambda = 1)
+
+}
+
+
+diversification := lambda - mu
+turnover := mu / lambda
+
+
+fbd_dist = dnSSBDP(originAge=origin_time,lambda=lambda, timeline=timeline, mu=mu, phi=psi, r=rho, taxa=taxa)
+    Amblyoponinae =clade( "Adetomyrma_MAD02", "Adetomyrma_sp2b", "Amblyopone_australis", "Apomyrma_stygia", "Myopopone_castanea", "Mystrium_mysticum", "Mystrium_rogeri", "Onychomyrmex_hedleyi", "Prionopelta_MAD01", "Prionopelta_sp2" )
+    Dolichoderinae =clade( "Anonychomyrma_gilberti", "Anonychomyrma_itinerans", "Anonychomyrma_nitidiceps", "Aptinoma_antongil", "Aptinoma_mangabe", "Arnoldius_AU01", "Axinidris_mlalu", "Axinidris_murielae", "Azteca_instabilis", "Azteca_ovaticeps", "Azteca_schimperi", "Azteca_sp", "Bothriomyrmex_meridionalis", "Bothriomyrmex_paradoxus", "Bothriomyrmex_saundersi", "Bothroponera_variolosa", "Bothroponera_wasmannii", "Chronoxenus_wroughtonii_javanus", "Doleromyrma_darwiniana", "Dolichoderus_debilis", "Dolichoderus_decollatus", "Dolichoderus_erectilobus", "Dolichoderus_imitator", "Dolichoderus_lamellosus", "Dolichoderus_pustulatus", "Dolichoderus_scabridus", "Dorymyrmex_bicolor", "Dorymyrmex_elegans", "Dorymyrmex_planidens", "Forelius_chalybaeus", "Forelius_pruinosus", "Forelius_sp", "Froggattella_kirbii", "Froggattella_latispina", "Gracilidris_pombero", "Iridomyrmex_AU01", "Iridomyrmex_pallidus", "Iridomyrmex_sanguineus", "Iridomyrmex_spadius", "Leptomyrmex_AU01", "Leptomyrmex_AUS01", "Leptomyrmex_erythrocephalus", "Leptomyrmex_sp", "Linepithema_humile", "Linepithema_keiteli", "Liometopum_apiculatum", "Liometopum_luctuosum", "Liometopum_occidentale", "Loweriella_boltoni", "Nebothriomyrmex_majeri", "Ochetellus_cf_glaber_clarithorax", "Ravavy_miafina" )
+    Dorylinae =clade( "Acanthostichus_davisi", "Acanthostichus_kirbyi", "Acanthostichus_punctiscapus", "Aenictogiton_UG01", "Aenictogiton_ZAM02", "Aenictogiton_ZM02", "Aenictus_ceylonicus", "Aenictus_eugenii", "Aenictus_GA03", "Aenictus_sp1", "Aenictus_sp2", "Aenictus_turneri", "Amyrmex_BR01", "Cerapachys_augustae", "Cerapachys_biroi", "Cerapachys_CM02", "Cerapachys_desposyne", "Cerapachys_dohertyi", "Cerapachys_edentatus", "Cerapachys_foreli", "Cerapachys_fragosus", "Cerapachys_jacobsoni", "Cerapachys_KH01", "Cerapachys_KH02", "Cerapachys_L_MG04", "Cerapachys_L_MG08", "Cerapachys_L_MG11", "Cerapachys_larvatus", "Cerapachys_LK01", "Cerapachys_LK02", "Cerapachys_MG03", "Cerapachys_MG14", "Cerapachys_MG39", "Cerapachys_MG42", "Cerapachys_MG43", "Cerapachys_nkomoensis", "Cerapachys_P_MG09", "Cerapachys_paradoxus", "Cerapachys_PG01", "Cerapachys_sauteri", "Cerapachys_sexspinus", "Cerapachys_splendens", "Cerapachys_suscitatus", "Cerapachys_sylvicola", "Cerapachys_TH01", "Cerapachys_TH02", "Cerapachys_TH03", "Cerapachys_typhlus", "Cheliomyrmex_morosus_cf", "Cylindromyrmex_meinerti", "Cylindromyrmex_striatus", "Dorylus_emeryi_opacus", "Dorylus_GA01", "Dorylus_helvolus", "Dorylus_laevigatus", "Dorylus_mayri", "Dorylus_wilverthi", "Eciton_hamatum", "Eciton_vagans", "Labidus_praedator", "Labidus_spininodis", "Leptanilloides_femoralis", "Leptanilloides_gracilis", "Leptanilloides_mckennae", "Leptanilloides_nomada", "Leptanilloides_nubecula", "Neivamyrmex_CR01", "Neivamyrmex_nigrescens", "Nomamyrmex_esenbeckii" )
+    Ectatomminae =clade( "Ectatomma_opaciventre", "Ectatomma_quadridens", "Gnamptogenys_sp", "Gnamptogenys_striatula", "Rhytidoponera_chalybaea", "Rhytidoponera_metallica" )
+    Formicinae =clade( "Acropyga_acutiventris", "Acropyga_epedana", "Anoplolepis_gracilipes_Sc", "Brachymyrmex_depilis", "Brachymyrmex_sp", "Calomyrmex_albertisi", "Camponotus_BCA01", "Camponotus_conithorax", "Camponotus_hyatti", "Camponotus_maritimus", "Camponotus_ocreatus", "Cataglyphis_iberica", "Euprenolepis_procera", "Euprenolepis_wittei", "Formica_moki", "Formica_wheeleri", "Lasius_alienus", "Lasius_californicus", "Lasius_latipes", "Melophorus_sp", "Myrmecocystus_flaviceps", "Myrmecocystus_mexicanus", "Myrmecorhynchus_sp", "Myrmelachista_flavocotea", "Myrmelachista_JTL01", "Myrmelachista_sp", "Myrmoteras_iriodum", "Myrmoteras_williamsi", "Notoncus_capitatus", "Notoncus_sp", "Notostigma_carazzii", "Nylanderia_amblyops_a", "Nylanderia_cf_bourbonica", "Nylanderia_cf_madagascarensis", "Nylanderia_cf_pubens", "Nylanderia_cf_vagaB", "Nylanderia_concinna", "Nylanderia_dodo", "Nylanderia_faisonensis", "Nylanderia_hystrix", "Nylanderia_parvula", "Nylanderia_phantasma", "Nylanderia_sp_CHR01", "Nylanderia_sp_DMR01", "Nylanderia_sp_FIJ01", "Nylanderia_sp_GUY01", "Nylanderia_sp_GUY02", "Nylanderia_sp_GUY03", "Nylanderia_sp_MAD01", "Nylanderia_sp_PER01", "Nylanderia_sp_PER02", "Nylanderia_terricola", "Nylanderia_vitiensis", "Nylanderia_vividula_a", "Nylanderia_wojciki", "Oecophylla_smaragdina", "Opisthopsis_respiciens", "Opisthopsis_sp", "Paraparatrechina_cf_oceanica", "Paraparatrechina_glabra", "Paraparatrechina_sp_PHL01", "Paraparatrechina_sp_PHL02", "Paraparatrechina_sp_PHL03", "Paraparatrechina_weissi", "Paratrechina_longicornis", "Plagiolepis_sp", "Polyergus_breviceps", "Polyrhachis_cf_vindex", "Polyrhachis_Cyrto01", "Polyrhachis_Hagio01", "Prenolepis_imparis", "Prenolepis_nitens", "Prenolepis_sp_PHL01", "Proformica_nasuta", "Prolasius_sp", "Pseudolasius_australis", "Pseudolasius_sp_PHL01", "Pseudolasius_typhlops" )
+    Myrmeciinae =clade( "Myrmecia_fulviculis", "Myrmecia_pyriformis" )
+    Myrmicinae =clade( "Acanthognathus_ocellatus", "Acanthomyrmex_ferox", "Acromyrmex_versicolor", "Adelomyrmex_paratristani", "Adelomyrmex_SC01", "Adlerzia_froggatti", "Allomerus_octoarticulatus", "Ancyridris_polyrhachioides_nr", "Anillomyrma_AFRC_TZ_01", "Anillomyrma_decamera", "Aphaenogaster_albisetosa", "Aphaenogaster_araneoides", "Aphaenogaster_occidentalis", "Aphaenogaster_pythia", "Aphaenogaster_swammerdami", "Aphaenogaster_texana", "Apterostigma_auriculatum", "Apterostigma_sp", "Atopomyrmex_mocquerysi", "Atta_sp", "Atta_texana", "Austromorium_flavigaster", "Baracidris_sitra", "Bariamyrma_hispidula", "Basiceros_manni", "Blepharidatta_conops", "Calyptomyrmex_beccari", "Calyptomyrmex_kaurus", "Cardiocondyla_emeryi", "Cardiocondyla_mauritanica", "Cardiocondyla_MY01", "Cardiocondyla_thoracica", "Carebara_affinis", "Carebara_alperti", "Carebara_AU01", "Carebara_nosindambo", "Carebara_sp", "Carebara_sp_2", "Carebara_sp_3", "Carebara_urichi", "Carebara_vidua", "Cataulacus_ebrardi", "Cataulacus_hispidulus", "Cataulacus_MAD02", "Cataulacus_sp", "Cephalotes_atratus", "Cephalotes_texanus", "Cephalotes_unimaculatus", "Colobostruma_unicorna", "Concoctio_concenta", "Crematogaster_acuta", "Crematogaster_emeryana", "Crematogaster_kelleri", "Crematogaster_modiglianii", "Crematogaster_navajoa", "Crematogaster_sordidula", "Cryptomyrmex_boltoni", "Cyatta_abscondita_GenBank", "Cyphoidris_exalta", "Cyphomyrmex_cornutus", "Cyphomyrmex_longiscapus_cf", "Cyphomyrmex_sp", "Dacatria_templaris", "Dacetinops_ignotus_cf", "Daceton_armigerum", "Diaphoromyrma_sofiae", "Dicroaspis_KM01", "Dilobocondyla_borneensis_cf", "Dilobocondyla_sp", "Diplomorium_longipenne", "Dolopomyrmex_pilatus", "Epelysidris_brocha", "Epopostruma_monstrosa", "Eurhopalothrix_australis", "Eurhopalothrix_bolaui", "Eurhopalothrix_gravis", "Eurhopalothrix_philippina", "Eutetramorium_mocquerysi", "Eutetramorium_sp", "Formicoxenus_diversipilosus", "Formicoxenus_provancheri", "Gauromyrmex_acanthinus", "Goniomma_blanci", "Goniomma_hispanicum", "Harpagoxenus_sublaevis", "Huberia_brounii", "Hylomyrma_blandiens", "Kalathomyrmex_emeryi", "Kartidris_sparsipila", "Kempfidris_inusuale", "Lachnomyrmex_scrobiculatus", "Lenomyrmex_colwelli", "Leptothorax_muscorum_complex", "Leptothorax_sp", "Liomyrmex_gestroi", "Lophomyrmex_ambiguus", "Lophomyrmex_striatulus", "Lordomyrma_bhutanensis_cf", "Lordomyrma_desupra", "Malagidris_belti", "Malagidris_jugum", "Manica_bradleyi", "Manica_rubida", "Mayriella_ebbei", "Mayriella_transfuga", "Megalomyrmex_foreli", "Megalomyrmex_silvestrii", "Melissotarsus_insularis", "Meranoplus_castaneus", "Meranoplus_cf_radamae", "Meranoplus_mayri", "Meranoplus_radamae", "Mesostruma_browni", "Messor_denticornis", "Messor_wasmanni", "Metapone_madagascarica", "Metapone_PG01", "Microdaceton_tibialis", "Monomorium_antarcticum", "Monomorium_denticulatum", "Monomorium_ergatogyna", "Monomorium_exiguum", "Monomorium_fieldi_nr", "Monomorium_hanneli", "Monomorium_latinode", "Monomorium_madecassum", "Monomorium_MG04", "Monomorium_pharaonis", "Mycetagroicus_triangularis_GenBank", "Mycetarotes_acutus", "Mycetophylax_conformis_GenBank", "Mycetosoritis_hartmanni", "Mycocepurus_goeldii", "Myrmecina_americana", "Myrmecina_graminicola", "Myrmecina_PG01", "Myrmica_incompleta", "Myrmica_kotokui", "Myrmica_rugiventris", "Myrmica_striolagaster", "Myrmica_tahoensis", "Myrmicaria_brunnea", "Myrmicaria_carinata", "Myrmicaria_exigua", "Myrmicocrypta_infuscata_cf", "Myrmisaraka_brevis", "Nesomyrmex_echinatinodis", "Nesomyrmex_madecassus", "Nesomyrmex_MG01", "Nesomyrmex_MG08", "Nesomyrmex_wilda", "Nothomyrmecia_macrops", "Ochetomyrmex_neopolitus", "Ochetomyrmex_semipolitus", "Octostruma_EC01", "Ocymyrmex_fortior_cf", "Ocymyrmex_picardi", "Orectognathus_versicolor", "Oxyepoecus_vezenyii", "Oxyopomyrmex_insularis", "Oxyopomyrmex_santschii", "Paratopula_TH01", "Perissomyrmex_snyderi", "Phalacromyrmex_fugax", "Pheidole_antipodum", "Pheidole_clydei", "Pheidole_dispar", "Pheidole_fimbriata", "Pheidole_hyatti", "Pheidole_longispinosa", "Pheidole_lucioccipitalis", "Pheidole_pallidula", "Pilotrochus_besmerus", "Podomyrma_silvicola", "Podomyrma_sp", "Poecilomyrma_myrmecodiae", "Pogonomyrmex_angustus", "Pogonomyrmex_imberbiculus", "Pogonomyrmex_maricopa", "Pogonomyrmex_striatinodus", "Pogonomyrmex_subdentatus", "Pogonomyrmex_vermiculatus", "Pristomyrmex_orbiceps", "Pristomyrmex_punctatus", "Pristomyrmex_sp", "Proatta_butteli", "Procryptocerus_batesi", "Procryptocerus_scabriusculus", "Propodilobus_pingorum", "Protalaridris_armata", "Recurvidris_TH01", "Rhopalomastix_janeti", "Rhopalomastix_rothneyi", "Rhopalothrix_isthmica", "Rogeria_nevadensis", "Rogeria_stigmatica", "Romblonella_scrobifera", "Rotastruma_recava", "Rotastruma_stenoceps" )
+    Ponerinae =clade( "Anochetus_emarginatus", "Anochetus_madagascarensis", "Anochetus_mayri", "Austroponera_castanea", "Brachyponera_atrata", "Brachyponera_chinensis", "Brachyponera_sennaarensis", "Buniapone_amblyops", "Centromyrmex_brachycola", "Centromyrmex_feae", "Centromyrmex_hamulatus", "Centromyrmex_sellaris", "Cryptopone_gilva", "Cryptopone_sauteri", "Diacamma_rugosum", "Diacamma_sp", "Diacamma_sp_Indo1", "Dinoponera_australis", "Dinoponera_gigantea", "Emeryopone_buttelreepeni", "Euponera_sikorae", "Hagensia_havilandi", "Harpegnathos_saltator", "Harpegnathos_venator", "Hypoponera_inexorata", "Hypoponera_opacior", "Hypoponera_sakalava", "Hypoponera_sp_Mal1", "Hypoponera_sp_Mal2", "Hypoponera_sp_Mal3", "Leptogenys_attenuata", "Leptogenys_crassicornis", "Leptogenys_diminuta", "Leptogenys_falcigera", "Leptogenys_iridescens", "Leptogenys_occidentalis", "Leptogenys_sp", "Leptogenys_sp_Ecu1", "Loboponera_politula", "Mayaponera_constricta", "Megaponera_analis", "Mesoponera_ingesta", "Mesoponera_rubra", "Myopias_lobosa", "Myopias_sp_Mal1", "Myopias_tenuis", "Neoponera_aenescens", "Neoponera_apicalis", "Neoponera_carinulata", "Neoponera_commutata", "Neoponera_fauveli", "Neoponera_marginata", "Neoponera_unidentata", "Neoponera_villosa", "Odontomachus_cephalotes", "Odontomachus_clarus", "Odontomachus_coquereli",  "Odontoponera_transversa", "Ophthalmopone_berthoudi", "Pachycondyla_crassinoda", "Pachycondyla_harpax", "Pachycondyla_impressa", "Pachycondyla_sp_CAR1", "Pachycondyla_sp_JTL011", "Pachycondyla_sp_Mal1", "Pachycondyla_sp_Mal2", "Pachycondyla_sp_Mal3", "Paltothyreus_tarsatus", "Phrynoponera_gabonensis", "Platythyrea_lamellosa", "Platythyrea_mocquerysi", "Platythyrea_punctata", "Platythyrea_quadridenta", "Platythyrea_strenua", "Platythyrea_turneri", "Plectroctena_minor", "Plectroctena_ugandensis", "Ponera_pennsylvanica", "Ponera_sp_Mal1", "Psalidomyrmex_procerus", "Pseudoneoponera_rufipes", "Pseudoponera_stigma" )
+    Proceratiinae =clade( "Discothyrea_MAD07", "Discothyrea_sp", "Probolomyrmex_sp", "Probolomyrmex_tani", "Proceratium_MAD08", "Proceratium_sp1", "Proceratium_stictum" )
+    Pseudomyrmecinae =clade( "Myrcidris_epicharis", "Pseudomyrmex_apache", "Pseudomyrmex_gracilis" )
+    constraints = v(Amblyoponinae ,Dolichoderinae,Dorylinae,Ectatomminae,Formicinae,Myrmicinae,Ponerinae,Proceratiinae,Pseudomyrmecinae)
+    fbd_tree ~ dnConstrainedTopology(fbd_dist, constraints=constraints)
+
+    # Specify mclade(taxon))
+    intervals = readDataDelimitedFile(file="data/foss_int.tsv", header=true)
+
+    for(i in 1:intervals.size())
+    {
+     taxon  = intervals[i][1]
+     a_i = intervals[i][2]
+     b_i = intervals[i][3]
+     a_i
+     t[i] := tmrca(fbd_tree, clade(taxon))
+
+     fossil[i] ~ dnUniform(t[i] - b_i, t[i] - a_i)
+    }
+    # Add a move to sample the fossil times #
+    moves[mvi++] = mvTipTimeSlideUniform(fbd_tree, origin_time, weight=5.0)
+    moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=5.0)
+
+    ### Create deterministic nodes to monitor various tree statistics ###
+    # Monitor the number of sampled ancestors in the FBD-tree #
+    num_samp_anc := fbd_tree.numSampledAncestors();
+
+    #age_extant := tmrca(fbd_tree, small)
+
+#fbd_tree ~ dnConstrainedTopology(fbd_dist, constraints=constraints)
+
+# Specify moves on the tree and node times #
+# These moves update the tree topology
+moves[mvi++] = mvFNPR(fbd_tree, weight=15.0)
+moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=6.0)
+
+# These moves update the node ages #
+# Because we are conditioning on the origin time, we must also sample the root node age #
+moves[mvi++] = mvNodeTimeSlideUniform(fbd_tree, weight=40.0)
+moves[mvi++] = mvRootTimeSlideUniform(fbd_tree, origin_time, weight=5.0)

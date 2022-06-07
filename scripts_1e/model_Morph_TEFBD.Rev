@@ -1,0 +1,46 @@
+###########################################
+# Binary morphological substitution model #
+###########################################
+#Create the Q matrix. These data are binary, so we initialize the Jukes-Cantor matrix with
+# two states
+
+
+#Set up Gamma-distributed rate variation.
+alpha_morpho ~ dnExponential( 1.0 )
+alpha_morpho.setValue(0.2)
+rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+
+#Moves on the parameters to the Gamma distribution.
+moves[mvi++] = mvScale(alpha_morpho, lambda=0.01, weight=5.0)
+moves[mvi++] = mvScale(alpha_morpho, lambda=0.1,  weight=3.0)
+moves[mvi++] = mvScale(alpha_morpho, lambda=1,    weight=1.0)
+
+clock_morpho ~ dnExponential(1.0)
+
+moves[mvi++] = mvScale(clock_morpho, lambda=0.01, weight=5.0)
+moves[mvi++] = mvScale(clock_morpho, lambda=0.1,  weight=2.0)
+moves[mvi++] = mvScale(clock_morpho, lambda=1,    weight=1.0)
+
+n_max_states <- 7
+idx = 1
+morpho_bystate[1] <- morpho
+for (i in 2:n_max_states) {
+    morpho_bystate[i] <- morpho                                # make local tmp copy of data
+    morpho_bystate[i].setNumStatesPartition(i)                 # only keep character blocks with state space equal to size i
+    nc = morpho_bystate[i].nchar()                             # get number of characters per character size with i-sized states
+
+    if (nc > 0) {                                              # for non-empty character blocks
+        q[idx] <- fnJC(i)                                      # make i-by-i rate matrix
+        m_morph[idx] ~ dnPhyloCTMC( tree=fbd_tree,
+                                    Q=q[idx],
+                                    nSites=nc,
+                                    branchRates=clock_morpho,
+                                    siteRates=rates_morpho,
+                                    type="Standard")           # create model of evolution for the character block
+
+        m_morph[idx].clamp(morpho_bystate[i])                  # attach the data
+
+        idx = idx + 1                                          # increment counter
+        idx
+    }
+}
