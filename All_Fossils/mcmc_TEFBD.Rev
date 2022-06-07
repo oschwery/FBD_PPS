@@ -1,0 +1,74 @@
+################################################################################
+#
+# RevBayes Example: Total-evidence dating under the fossilized birth-death model
+#
+# This file: Runs the full MCMC ...
+#
+# authors: Tracy A. Heath, Walker C. Pett, April M. Wright
+#
+################################################################################
+
+#######################
+# Reading in the Data #
+#######################
+# Create the full list of taxa (including all fossils and extant species #
+taxa <- readTaxonData("../fossils/taxa_all_dates.tsv")
+
+# Import the molecular sequences #
+# this file contains only the taxa for which sequence data are available #
+filenames <- v("Data/18s.nex", "Data/28s.nex", "Data/ABD.nex","Data/Arg.nex", "Data/CAD.nex", "Data/EF1.nex", "Data/EF2.nex", "Data/lg.nex", "Data/WG.nex")
+
+n_data_subsets <- filenames.size()
+for (i in 1:n_data_subsets) {
+   data[i] = readDiscreteCharacterData(filenames[i])
+}
+
+# Import the morphological character matrix #
+# this file contains only the taxa for which morphological characters are available #
+morpho <- readDiscreteCharacterData("Data/AntMegaMatrixMinusAmbig.nex")
+
+# Add the missing taxa to each data partition #
+for (i in 1:n_data_subsets) {
+    data[i].addMissingTaxa( taxa )
+}
+
+morpho.addMissingTaxa( taxa )
+
+## helpers
+mvi = 1
+mni = 1
+
+n_taxa <- taxa.size()
+n_branches <- 2 * n_taxa - 2
+# Load the model files
+source("scripts/model_FBDP_TEFBD.Rev") # FBD tree prior
+
+source("scripts/model_UExp_TEFBD.Rev") # UExp relaxed clock
+
+source("scripts/model_GTRG_TEFBD.Rev") # Molecular substitution model (GTR+G)
+
+source("scripts/model_Morph_TEFBD.Rev") # Morphological character change model
+
+
+########
+# MCMC #
+########
+
+# initialize the model object #
+mymodel = model(rates_cytb[i])
+# Create a vector of monitors #
+# 1. for the full model #
+monitors[mni++] = mnModel(filename="output/antsSA.log", printgen=10)
+# 2. the tree #
+monitors[mni++] = mnFile(filename="output/antsSA.trees", printgen=10, fbd_tree)
+# 3. and a few select parameters to be printed to the screen #
+monitors[mni++] = mnScreen(printgen=10,  num_samp_anc, origin_time)
+#monitors[mni++] = mnScreen(printgen=10)
+# Initialize the MCMC object #
+mymcmc = mcmc(mymodel, monitors, moves)
+
+# Run the MCMC #
+#mymcmc.run(generations=200000)
+
+# Quit RevBayes #
+#q()
