@@ -1,0 +1,60 @@
+##########################################################################################
+# Joint Fossilized Birth-Death Process prior on the topology and fossil occurrence times #
+##########################################################################################
+
+
+# Define a exponential priors on the birth rate and turnover #
+speciation_rate ~  dnExponential(10)
+turnover ~ dnExponential(10)
+#extinction_rate ~  dnExponential(10)
+
+
+# Create deterministic nodes for extinction and diversification rates so that they can be monitored #
+extinction_rate := turnover * speciation_rate
+diversification := speciation_rate - extinction_rate
+#turnover := extinction_rate/speciation_rate
+
+# Fix the probability of sampling parameter (rho) to 1, #
+# because all extant bears are represented in this analysis #
+rho <- .1
+
+# Assume an exponential prior on the rate of sampling fossils (psi) #
+psi ~ dnExponential(10)
+
+
+
+# The FBD is conditioned on a starting time for the process, which is the origin time #
+# Specify a uniform prior on the origin #
+origin_time ~ dnUnif(100, 150)
+
+fbd_tree ~ dnFBDP(origin=origin_time, lambda=speciation_rate, mu=extinction_rate, psi=psi, rho=rho, taxa=taxa)
+
+
+# Specify mclade(taxon))
+intervals = readDataDelimitedFile(file="Data/ran.tsv", header=true)
+
+for(i in 1:intervals.size())
+{
+ taxon  = intervals[i][1]
+ a_i = intervals[i][2]
+ b_i = intervals[i][3]
+ t[i] := tmrca(fbd_tree, clade(taxon))
+ fossil[i] ~ dnUniform(t[i] - b_i, t[i] - a_i)
+ fossil_normalized[i] :=  fossil[i] + t[i]
+ fossil_normalized[i]
+ fossil[i].clamp( 0 )
+}
+# Add a move to sample the fossil times #
+moves[mvi++] = mvFossilTimeSlideUniform(fbd_tree, origin_time, weight=5.0)
+moves[mvi++] = mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=6.0)
+
+# Add tree moves
+moves[mvi++] = mvFNPR(fbd_tree, weight=15)
+moves[mvi++] = mvNodeTimeSlideUniform(fbd_tree, weight=40)
+moves[mvi++] = mvRootTimeSlideUniform(fbd_tree, origin_time, weight=5)
+
+### Create deterministic nodes to monitor various tree statistics ###
+# Monitor the number of sampled ancestors in the FBD-tree #
+num_samp_anc := fbd_tree.numSampledAncestors();
+
+#age_extant := tmrca(fbd_tree, small)

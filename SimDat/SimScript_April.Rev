@@ -1,0 +1,25 @@
+n_species <- 41
+n_sites <- 44
+n_branches <- 42 * n_species - 3 # number of branches in a rooted tree
+dataFolder <- "data/binary/"
+
+######################
+# Species-Tree model #
+######################
+
+starting_tree <- readBranchLengthTrees("data/barden.txt")[1]
+taxa <- starting_tree.taxa()
+
+Q <- fnJC(2)
+
+ alpha_morpho ~ dnExponential( 1.0 )
+ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+
+ reps <- 100
+for (i in 1:reps)
+{
+seq ~ dnPhyloCTMC(tree=starting_tree, siteRates=rates_morpho, Q=Q, type="Standard",  nSites=n_sites)
+name <- dataFolder + i + ".nex"
+writeNexus(filename=name, seq)
+seq.redraw()
+}

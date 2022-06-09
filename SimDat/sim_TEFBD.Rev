@@ -1,0 +1,36 @@
+
+
+starting_tree <- readBranchLengthTrees("Data/MAP.tre")[1]
+
+taxa <- starting_tree.taxa()
+
+n_taxa <- taxa.size()
+#n_branches <- 42 * n_species - 3 # number of branches in a rooted tree
+# morpho:
+#n_sites <- 163
+n_max_states <- 7
+nc = 25 #number of sites per n_states
+
+filenames <- v("18s.nex", "28s.nex", "ABD.nex","Arg.nex", "CAD.nex", "EF1.nex", "EF2.nex", "lg.nex", "WG.nex")
+#filenames <- v("18s.nex", "28s.nex")
+
+n_data_subsets <- filenames.size()
+
+n_sites <- v(1876, 1267, 656, 678, 921, 361, 517, 456, 380)
+
+
+dataFolder <- "sims/"
+
+Q <- fnJC(2)
+
+ alpha_morpho ~ dnExponential( 1.0 )
+ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+
+ reps <- 10
+for (i in 1:reps)
+{
+seq ~ dnPhyloCTMC(tree=starting_tree, siteRates=rates_morpho, Q=Q, type="Standard",  nSites=n_sites)
+name <- dataFolder + i + ".nex"
+writeNexus(filename=name, seq)
+seq.redraw()
+}
