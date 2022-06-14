@@ -1,0 +1,55 @@
+###########################################
+# Binary morphological substitution model #
+###########################################
+# states = v(2,3,4,5,6,7)
+# n_max_states <- states.size()
+n_max_states <- 7
+
+idx = 1
+morpho_bystate[1] <- morpho
+for (i in 2:n_max_states) {
+    # make local tmp copy of data
+    # only keep character blocks with state space equal to size i
+    morpho_bystate[i] <- morpho
+    morpho_bystate[i].setNumStatesPartition(i)
+    # get number of characters per character size wth i-sized states
+    nc = morpho_bystate[i].nchar()
+    # for non-empty character blocks
+    if (nc > 0) {
+        # make i-by-i rate matrix
+        q[idx] <- fnJC(i)
+       q[idx]
+       # We also use a discretized gamma distribution of rate categories #
+       # again, the shape parameter is drawn from an exponential prior #
+       alpha_morpho[idx] ~ dnExponential( 1.0 )
+       alpha_morpho[idx].setValue(0.2)
+       rates_morpho[idx] := fnDiscretizeGamma( alpha_morpho[idx], alpha_morpho[idx], 4 )
+
+       moves[mvi++] = mvScale(alpha_morpho[idx], lambda=0.01, weight=1.0)
+       moves[mvi++] = mvScale(alpha_morpho[idx], lambda=0.1,  weight=1.0)
+       moves[mvi++] = mvScale(alpha_morpho[idx], lambda=1,    weight=1.0)
+
+       clock_morpho[idx] ~ dnExponential(1.0)
+
+       moves[mvi++] = mvScale(clock_morpho[idx], lambda=0.01, weight=4.0)
+       moves[mvi++] = mvScale(clock_morpho[idx], lambda=0.1,  weight=4.0)
+       moves[mvi++] = mvScale(clock_morpho[idx], lambda=1,    weight=4.0)
+
+
+
+# create model of evolution for the character block
+        m_morph[idx] ~ dnPhyloCTMC( tree=fbd_tree,
+                                    Q=q[idx],
+                                    nSites=nc,
+                                    branchRates = clock_morpho[idx],
+                                    siteRates=rates_morpho[idx],
+                                    type="Standard")
+
+        # attach the data
+	       m_morph[idx].clamp(morpho_bystate[i])
+
+        # increment counter
+        idx = idx + 1
+        idx
+      }
+}
