@@ -21,56 +21,73 @@ input_dir_sim = "PPS_output/"
 markers <- v("18s", "28s", "ABD","Arg", "CAD", "EF1", "EF2", "lg", "WG")
 num_markers = markers.size()
 
+n_morpho_states <- 7
+
 # count number of posterior samples
 num_post_sims = listFiles(path=input_dir_sim).size()
 
 ###################################
 # Summarize posterior simulations #
 ###################################
+colnames <- v("SimID")
+outfileName = output_dir + "/simulated_data_" + file_stem + ".csv"
+
 for (j in 1:num_markers) {
   # initiate outfile and populate with column names
-  outfileName = output_dir + "/simulated_data_" + file_stem + "_" + markers[j] + ".csv"
 
-  write(file=outfileName,
-  "SimID",
-  "Number Invariant Sites",
-  "Number Invariant Sites Excluding Ambiguous",
-  "Segregating-Sites",
-  "Max GC",
-  "Max GC Excluding Ambiguous",
-  "Max Invariant Block Length",
-  "Max Invariant Block Length Excluding Ambiguous",
-  "Max Pairwise Difference",
-  "Max Pairwise Difference Excluding Ambiguous",
-  "Max Variable Block Length",
-  "Max Variable Block Length Excluding Ambiguous",
-  "Min GC",
-  "Min GC Excluding Ambiguous",
-  "Min Pairwise Difference",
-  "Min Pairwise Difference Excluding Ambiguous",
-  "Number Invariable Block",
-  "Number Invariable Block Excluding Ambiguous",
-  "Mean GC",
-  "Mean GC Excluding Ambiguous",
-  "Mean GC 1",
-  "Mean GC 1 Excluding Ambiguous",
-  "Mean GC 2",
-  "Mean GC 2 Excluding Ambiguous",
-  "Mean GC 3",
-  "Mean GC 3 Excluding Ambiguous",
-  "Var GC",
-  "Var GC Excluding Ambiguous",
-  "Var GC 1",
-  "Var GC 1 Excluding Ambiguous",
-  "Var GC 2",
-  "Var GC 2 Excluding Ambiguous",
-  "Var GC 3",
-  "Var GC 3 Excluding Ambiguous",
-  "Theta",
-  "Tajima-D",
-  "Tajima-Pi",
-  "Multinomial-Likelihood",
-  sep=",", append=FALSE)
+  colnames <- v(colnames,
+  "Number Invariant Sites" + " " + markers[j],
+  "Number Invariant Sites Excluding Ambiguous" + " " + markers[j],
+  "Segregating-Sites" + " " + markers[j],
+  "Max GC" + " " + markers[j],
+  "Max GC Excluding Ambiguous" + " " + markers[j],
+  "Max Invariant Block Length" + " " + markers[j],
+  "Max Invariant Block Length Excluding Ambiguous" + " " + markers[j],
+  "Max Pairwise Difference" + " " + markers[j],
+  "Max Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Max Variable Block Length" + " " + markers[j],
+  "Max Variable Block Length Excluding Ambiguous" + " " + markers[j],
+  "Min GC" + " " + markers[j],
+  "Min GC Excluding Ambiguous" + " " + markers[j],
+  "Min Pairwise Difference" + " " + markers[j],
+  "Min Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Number Invariable Block" + " " + markers[j],
+  "Number Invariable Block Excluding Ambiguous" + " " + markers[j],
+  "Mean GC" + " " + markers[j],
+  "Mean GC Excluding Ambiguous" + " " + markers[j],
+  "Mean GC 1" + " " + markers[j],
+  "Mean GC 1 Excluding Ambiguous" + " " + markers[j],
+  "Mean GC 2" + " " + markers[j],
+  "Mean GC 2 Excluding Ambiguous" + " " + markers[j],
+  "Mean GC 3" + " " + markers[j],
+  "Mean GC 3 Excluding Ambiguous" + " " + markers[j],
+  "Var GC" + " " + markers[j],
+  "Var GC Excluding Ambiguous" + " " + markers[j],
+  "Var GC 1" + " " + markers[j],
+  "Var GC 1 Excluding Ambiguous" + " " + markers[j],
+  "Var GC 2" + " " + markers[j],
+  "Var GC 2 Excluding Ambiguous" + " " + markers[j],
+  "Var GC 3" + " " + markers[j],
+  "Var GC 3 Excluding Ambiguous" + " " + markers[j],
+  "Theta" + " " + markers[j],
+  "Tajima-D" + " " + markers[j],
+  "Tajima-Pi", + " " + markers[j],
+  "Multinomial-Likelihood" + " " + markers[j]
+  )
+}
+
+for (k in 1:(n_morpho_states-1)) {
+    colnames <- v(colnames,
+    "Number Invariant Sites" + " " + k,
+    "Number Invariant Sites Excluding Ambiguous" + " " + k,
+    "Max Pairwise Difference" + " " + k,
+    "Max Pairwise Difference Excluding Ambiguous" + " " + k,
+    "Min Pairwise Difference" + " " + k,
+    "Min Pairwise Difference Excluding Ambiguous" + " " + k,
+    )
+}
+  write(file=outfileName, colnames, sep=",", append=FALSE)
+
 
   write(file=outfileName, "\n", append=TRUE)
 
