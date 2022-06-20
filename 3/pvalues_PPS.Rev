@@ -1,0 +1,124 @@
+# Calculate posterior p-values for summary statistics
+# Orlando Schwery, 30. May 2022
+
+# Settings (some of these might become/be redundant)
+rep = 3  # which set to use
+current_model = 1  # sets model to use, see below
+models = ["TEFBD", "unpart"]
+proposed_model = models[current_model]
+
+output_dir = "results/"
+file_stem = "skyline_" + rep
+
+input_dir = "results/"
+
+emp_pps_file = input_dir + "empirical_data_" + file_stem + ".csv"
+sim_pps_file = input_dir + "simulated_data_" + file_stem + ".csv"
+outfileName = output_dir + "pvalues_" + file_stem + ".csv"
+
+# statistic names (this can be useful to post-hoc customise but should probably be replaced by using the ones in the files to avoid mishaps - need to be same as in summary script)
+statID = v(
+  "SimID",
+  "Number Invariant Sites",
+  "Number Invariant Sites Excluding Ambiguous",
+  "Segregating-Sites",
+  "Max GC",
+  "Max GC Excluding Ambiguous",
+  "Max Invariant Block Length",
+  "Max Invariant Block Length Excluding Ambiguous",
+  "Max Pairwise Difference",
+  "Max Pairwise Difference Excluding Ambiguous",
+  "Max Variable Block Length",
+  "Max Variable Block Length Excluding Ambiguous",
+  "Min GC",
+  "Min GC Excluding Ambiguous",
+  "Min Pairwise Difference",
+  "Min Pairwise Difference Excluding Ambiguous",
+  "Number Invariable Block",
+  "Number Invariable Block Excluding Ambiguous",
+  "Mean GC",
+  "Mean GC Excluding Ambiguous",
+  "Mean GC 1",
+  "Mean GC 1 Excluding Ambiguous",
+  "Mean GC 2",
+  "Mean GC 2 Excluding Ambiguous",
+  "Mean GC 3",
+  "Mean GC 3 Excluding Ambiguous",
+  "Var GC",
+  "Var GC Excluding Ambiguous",
+  "Var GC 1",
+  "Var GC 1 Excluding Ambiguous",
+  "Var GC 2",
+  "Var GC 2 Excluding Ambiguous",
+  "Var GC 3",
+  "Var GC 3 Excluding Ambiguous",
+  "Theta",
+  "Tajima-D",
+  "Tajima-Pi",
+  "Multinomial-Likelihood"
+)
+
+################### start of effect size calculations ########################
+
+empData = readDataDelimitedFile(emp_pps_file,header=TRUE,delimiter=",")
+simData = readDataDelimitedFile(sim_pps_file,header=TRUE,delimiter=",")
+
+## setup the pvalue output file
+write(file=outfileName, "Statistic", "Lower 1-tailed", "Upper 1-tailed", "Two-tailed", "Midpoint", "Effect Size", sep=",", append=FALSE)
+write(file=outfileName, "\n", sep=",", append=TRUE)
+
+# for each statistic (skipping the first for the pps sims, as it is the rep number)
+for (stat in 2:simData[1].size()) {
+  ## transform the data for easily manipulation
+  ## we need to retrieve what would amount to a column
+  # for each rep
+  # numbers <- simData.column(x)
+  k = 1
+  for (rep in 1:simData.size()) {
+    if (simData[rep][stat] != "nan" & 
+        simData[rep][stat] != "inf" &
+        simData[rep][stat] != "-nan") {
+          numbers[k++] = simData[rep][stat]
+        } else {
+          numbers[k++] = 0.0
+        }
+      }
+
+
+  ## calculate median value of PPD here
+  m = median(numbers)
+
+  ## calculate effect size here
+  # empValue = empData[1][x-1]
+  # -1 to make up for missing first column with sim ID
+  if (empData[1][stat-1] != "nan" &
+      empData[1][stat-1] != "inf" &
+      empData[1][stat-1] != "-nan") {
+        empValue = empData[1][stat-1]
+      } else {
+        empValue = 0.0
+      }
+
+  effect_size = abs((m - empValue) / stdev(numbers))
+
+  ## Calculate and return a vector of lower, equal, and upper pvalues for a given test statistic
+  p_values <- posteriorPredictiveProbability(numbers, empValue)
+
+  ## 1-tailed
+  lower_p_value <- p_values[1]
+  equal_p_value <- p_values[2]
+  upper_p_value <- p_values[3]
+
+  ## mid-point
+  midpoint_p_value = lower_p_value + 0.5*equal_p_value
+
+  ## 2-tailed
+  two_tail_p_value = 2 * (min(v(lower_p_value+equal_p_value, upper_p_value+equal_p_value)))
+
+  write(file=outfileName, statID[stat], lower_p_value+equal_p_value, upper_p_value+equal_p_value, two_tail_p_value, midpoint_p_value, effect_size, sep=",", append=TRUE)
+  write(file=outfileName, "\n", sep=",", append=TRUE)
+
+
+}
+
+print("Done calculating p-values.")
