@@ -32,6 +32,7 @@ num_post_sims = listFiles(path=input_dir_sim).size()
 colnames <- v("SimID")
 outfileName = output_dir + "/simulated_data_" + file_stem + ".csv"
 
+# Molecular Data
 for (j in 1:num_markers) {
   # initiate outfile and populate with column names
 
@@ -69,6 +70,9 @@ for (j in 1:num_markers) {
   "Var GC 2 Excluding Ambiguous" + " " + markers[j],
   "Var GC 3" + " " + markers[j],
   "Var GC 3 Excluding Ambiguous" + " " + markers[j],
+  "Missing Sequence 50" + " " + markers[j],
+  "Missing Sequence 30" + " " + markers[j],
+  "Missing Sequence 10" + " " + markers[j],
   "Theta" + " " + markers[j],
   "Tajima-D" + " " + markers[j],
   "Tajima-Pi", + " " + markers[j],
@@ -76,26 +80,50 @@ for (j in 1:num_markers) {
   )
 }
 
-for (k in 1:(n_morpho_states-1)) {
+# Morpho Data
+# for (k in 1:(n_morpho_states-1)) {  #just pool them all for now, though this may eventually not be reasonable
     colnames <- v(colnames,
-    "Number Invariant Sites" + " " + k,
-    "Number Invariant Sites Excluding Ambiguous" + " " + k,
-    "Max Pairwise Difference" + " " + k,
-    "Max Pairwise Difference Excluding Ambiguous" + " " + k,
-    "Min Pairwise Difference" + " " + k,
-    "Min Pairwise Difference Excluding Ambiguous" + " " + k,
+    "Tip State Frequency 0",
+    "Tip State Frequency 1",
+    "Tip State Frequency 2",
+    "Tip State Frequency 3",
+    "Tip State Frequency 4",
+    "Tip State Frequency 5",
+    "Tip State Frequency 6",
+    "Number Invariant Sites Morpho",
+    "Number Invariant Sites Morpho Excluding Ambiguous",
+    "Max Pairwise Difference Morpho",
+    "Max Pairwise Difference Morpho Excluding Ambiguous",
+    "Min Pairwise Difference Morpho",
+    "Min Pairwise Difference Morpho Excluding Ambiguous"
     )
-}
-  write(file=outfileName, colnames, sep=",", append=FALSE)
+    # later add distinction of using fossil vs extant only, as well as delta of fossil and extant
+#}
 
 
-  write(file=outfileName, "\n", append=TRUE)
+# Fossil ages
+# can't do that just yet?
+# load and subset trace, within which we got t[i], fossil_normalized[i], and fossil[i]
+# compare to fossil min and max then
+# consider using age/bl?
+# consider using monophyletic groups to test for fossil placement?
+
+
+write(file=outfileName, colnames, sep=",", append=FALSE)
+
+
+write(file=outfileName, "\n", append=TRUE)
 
 
   ################### calculate the pps stats here #########################
+    i)
 
   ## Iterate through all of the posterior tree files from the simulation analyses
   for ( i in 1:num_post_sims) {
+    write(file=outfileName, append=TRUE, sep=",",
+
+    for (j in 1:num_markers) {
+
 
     #    inFileName = "output_" + model_name + "/posterior_predictive_sim_" + i + "/" + analysis_name + "_posterior.trees"
 
@@ -167,7 +195,6 @@ for (k in 1:(n_morpho_states-1)) {
 
 
     write(file=outfileName, append=TRUE, sep=",",
-    i,
     num_inv,
     num_inv_amb,
     seg_sites,
@@ -201,17 +228,55 @@ for (k in 1:(n_morpho_states-1)) {
     var_gc_2_amb,
     var_gc_3,
     var_gc_3_amb,
+    n_taxa_50,
+    n_taxa_30,
+    n_taxa_10,
     theta,
     tajima_d,
     tajima_pi,
     mult_lnl)
 
+  }
+  for (k in 1:(n_morpho_states-1)) {  #just pool them all for now, though this may eventually not be reasonable
+    sim_data_morph[k] <- readDiscreteCharacterData(input_dir_sim + "/posterior_predictive_sim_" + i + "/m_morph[" + k + "].nex" )
+  }
+  sim_data_morph_combo = concatenate( sim_data_morph[1],  sim_data_morph[2],  sim_data_morph[3],  sim_data_morph[4],  sim_data_morph[5],  sim_data_morph[6])
+  
+  tipfreqs = sim_data_morph_combo.getEmpiricalBaseFrequencies()
+  tipfreq_0 = tipfreqs[1]
+  tipfreq_1 = tipfreqs[2]
+  tipfreq_2 = tipfreqs[3]
+  tipfreq_3 = tipfreqs[4]
+  tipfreq_4 = tipfreqs[5]
+  tipfreq_5 = tipfreqs[6]
+  tipfreq_6 = tipfreqs[7]
 
+  n_inv_morpho = sim_data_morph_combo.getNumInvariantSites( excludeAmbiguous=FALSE )
+  n_inv_morpho_amb = sim_data_morph_combo.getNumInvariantSites( excludeAmbiguous=TRUE )
+  
+  max_pd_morpho = sim_data_morph_combo.maxPairwiseDifference( excludeAmbiguous=FALSE )
+  max_pd_morpho_amb = sim_data_morph_combo.maxPairwiseDifference( excludeAmbiguous=TRUE )
+
+  min_pd_morpho = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=FALSE )
+  min_pd_morpho_amb = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=TRUE )
+
+  write(file=outfileName, append=TRUE, sep=",",
+    tipfreq_0,
+    tipfreq_1,
+    tipfreq_2,
+    tipfreq_3,
+    tipfreq_4,
+    tipfreq_5,
+    tipfreq_6,
+    n_inv_morpho,
+    n_inv_morpho_amb,
+    max_pd_morpho,
+    max_pd_morpho_amb,
+    min_pd_morpho,
+    min_pd_morpho_amb
+  )
 
     write(file=outfileName, "\n", append=TRUE)
-
-  }
-
 }
 
 
