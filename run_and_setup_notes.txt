@@ -1,0 +1,65 @@
+# count number of lines
+wc -l antsSA.log
+
+# check if last line is complete, in case run completed by crashing
+
+# remove line 2 to what determined in Tracer (/10) and save as new file
+sed '2,7200d' antsSA.log > antsSA2.log
+wc -l antsSA2.log
+
+# check in Tracer, if fine, do same to var file
+sed '2,7200d' antsSA.var > antsSA2.var
+wc -l antsSA.var
+wc -l antsSA2.var
+
+# now change file_stem to "antsSA2" in run_PPS.Rev and run
+# Also remember to turn run mcmc off
+  # included a switch and loop, but copy it over and DON'T replace the whole file, to preserve the initial settings
+
+
+# for summarising, remember to change which trait model it is!
+# manually remove the [ and ] for now
+
+#############################
+# Excluded sumstats:
+#############################
+-nan
+  Mean GC Excluding Ambiguous 18s
+  Mean GC 1 Excluding Ambiguous 18s
+  Mean GC 2 Excluding Ambiguous 18s
+  Mean GC 3 Excluding Ambiguous 18s
+  Var GC Excluding Ambiguous 18s
+  Var GC 1 Excluding Ambiguous 18s
+  Var GC 2 Excluding Ambiguous 18s
+  Var GC 3 Excluding Ambiguous 18s
+
+0 variance
+  Number Invariant Sites 18s
+  Segregating-Sites 18s
+  Max Invariant Block Length 18s
+  Max Pairwise Difference Excluding Ambiguous 18s
+  Max Variable Block Length 18s
+  Min GC 18s
+  Min Pairwise Difference 18s
+  Min Pairwise Difference Excluding Ambiguous 18s
+  Number Invariable Block 18s
+  Theta 18s
+
+same as emp:
+  Min GC 18s
+  Min Pairwise Difference 18s
+  Min Pairwise Difference Excluding Ambiguous 18s
+
+same as emp for EF2 and lg
+  Max Pairwise Difference Excluding Ambiguous 18s
+  Max Variable Block Length 18s
+  Number Invariable Block 18s
+
+same as emp for Arg, but not excluded"
+  Tajima-Pi
+
+0 variance and same as emp morpho:
+  Number Invariant Sites Morpho
+  Max Pairwise Difference Morpho Excluding Ambiguous
+  Min Pairwise Difference Morpho
+  Min Pairwise Difference Morpho Excluding Ambiguous
