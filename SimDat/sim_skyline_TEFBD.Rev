@@ -1,10 +1,10 @@
 
 # set sample
-rep = 10
+rep = 9
 
-starting_tree <- readBranchLengthTrees("SimDat/tree_" + rep + ".tre")[1]
+starting_tree <- readBranchLengthTrees("SimDat/tree_skyline_" + rep + ".tre")[1]
 #starting_tree <- readTrees("SimDat/tree_" + rep + ".tre")[1]
-intervals = readDataDelimitedFile(file="SimDat/fossils" + rep + ".tsv", header=true)
+intervals = readDataDelimitedFile(file="SimDat/fossils_skyline_" + rep + ".tsv", header=true)
 
 taxa <- starting_tree.taxa()
 
@@ -22,22 +22,23 @@ n_data_subsets <- filenames.size()
 
 n_sites <- v(1876, 1267, 656, 678, 921, 361, 517, 456, 380)
 
+timeline <- v(2, 4, 6, 8)
 
-source("SimDat/model_FBDP_TEFBD.Rev") # FBD tree prior
+source("SimDat/model_FBDP_TEFBD_skyline.Rev") # FBD tree prior
 
 source("SimDat/model_UExp_TEFBD.Rev") # UExp relaxed clock
 
 source("SimDat/model_GTRG_TEFBD.Rev") # Molecular substitution model (GTR+G)
 
-#source("SimDat/model_Morph_TEFBD.Rev") # Morphological character change model
-source("SimDat/model_SHDMorph_TEFBD.Rev") # Morphological character change model
+source("SimDat/model_Morph_TEFBD.Rev") # Morphological character change model
+#source("SimDat/model_SHDMorph_TEFBD.Rev") # Morphological character change model
 
 
 dataFolder <- "SimDat/" + rep + "/Data/"
 
-# m_morph_combo = concatenate( m_morph[1],  m_morph[2],  m_morph[3],  m_morph[4],  m_morph[5],  m_morph[6])
-# writeNexus(filename=dataFolder + "morpho.nex", m_morph_combo)
-writeNexus(filename=dataFolder + "morpho.nex", phyMorpho)
+m_morph_combo = concatenate( m_morph[1],  m_morph[2],  m_morph[3],  m_morph[4],  m_morph[5],  m_morph[6])
+writeNexus(filename=dataFolder + "morpho.nex", m_morph_combo)
+#writeNexus(filename=dataFolder + "morpho.nex", phyMorpho)
 
 
 for (j in 1:phySeq.size()) {
