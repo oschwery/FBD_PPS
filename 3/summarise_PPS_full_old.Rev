@@ -41,22 +41,40 @@ for (j in 1:num_markers) {
   # initiate outfile and populate with column names
 
   colnames2 <- v(
+  "Number Invariant Sites" + " " + markers[j],
   "Number Invariant Sites Excluding Ambiguous" + " " + markers[j],
+  "Segregating-Sites" + " " + markers[j],
   "Max GC" + " " + markers[j],
   "Max GC Excluding Ambiguous" + " " + markers[j],
+  "Max Invariant Block Length" + " " + markers[j],
   "Max Invariant Block Length Excluding Ambiguous" + " " + markers[j],
   "Max Pairwise Difference" + " " + markers[j],
+  "Max Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Max Variable Block Length" + " " + markers[j],
   "Max Variable Block Length Excluding Ambiguous" + " " + markers[j],
+  "Min GC" + " " + markers[j],
   "Min GC Excluding Ambiguous" + " " + markers[j],
+  "Min Pairwise Difference" + " " + markers[j],
+  "Min Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Number Invariable Block" + " " + markers[j],
   "Number Invariable Block Excluding Ambiguous" + " " + markers[j],
   "Mean GC" + " " + markers[j],
+  "Mean GC Excluding Ambiguous" + " " + markers[j],
   "Mean GC 1" + " " + markers[j],
+  "Mean GC 1 Excluding Ambiguous" + " " + markers[j],
   "Mean GC 2" + " " + markers[j],
+  "Mean GC 2 Excluding Ambiguous" + " " + markers[j],
   "Mean GC 3" + " " + markers[j],
+  "Mean GC 3 Excluding Ambiguous" + " " + markers[j],
   "Var GC" + " " + markers[j],
+  "Var GC Excluding Ambiguous" + " " + markers[j],
   "Var GC 1" + " " + markers[j],
+  "Var GC 1 Excluding Ambiguous" + " " + markers[j],
   "Var GC 2" + " " + markers[j],
+  "Var GC 2 Excluding Ambiguous" + " " + markers[j],
   "Var GC 3" + " " + markers[j],
+  "Var GC 3 Excluding Ambiguous" + " " + markers[j],
+  "Theta" + " " + markers[j],
   "Tajima-D" + " " + markers[j],
   "Tajima-Pi" + " " + markers[j],
   "Multinomial-Likelihood" + " " + markers[j]
@@ -76,8 +94,12 @@ for (j in 1:num_markers) {
     "Tip State Frequency 4",
     "Tip State Frequency 5",
     "Tip State Frequency 6",
+    "Number Invariant Sites Morpho",
     "Number Invariant Sites Morpho Excluding Ambiguous",
-    "Max Pairwise Difference Morpho"
+    "Max Pairwise Difference Morpho",
+    "Max Pairwise Difference Morpho Excluding Ambiguous",
+    "Min Pairwise Difference Morpho",
+    "Min Pairwise Difference Morpho Excluding Ambiguous"
     )
     colnames3.size()
     colnames.append(colnames3)
@@ -136,63 +158,63 @@ print("written colnames")
     data.removeTaxa(outnames)
   }
 
-#  num_inv         = data.getNumInvariantSites( excludeAmbiguous=FALSE )
+  num_inv         = data.getNumInvariantSites( excludeAmbiguous=FALSE )
   num_inv_amb     = data.getNumInvariantSites( excludeAmbiguous=TRUE )
   print("num_inv done")
   max_gc          = data.maxGcContent( excludeAmbiguous=FALSE )
   max_gc_amb      = data.maxGcContent( excludeAmbiguous=TRUE )
   print("max_gc done")
-#  min_inv_bl      = data.maxInvariableBlockLength( excludeAmbiguous=FALSE )
+  min_inv_bl      = data.maxInvariableBlockLength( excludeAmbiguous=FALSE )
   min_inv_bl_amb  = data.maxInvariableBlockLength( excludeAmbiguous=TRUE )
   print("min_gc done")
   max_pd          = data.maxPairwiseDifference( excludeAmbiguous=FALSE )
-#  max_pd_amb      = data.maxPairwiseDifference( excludeAmbiguous=TRUE )
+  max_pd_amb      = data.maxPairwiseDifference( excludeAmbiguous=TRUE )
   print("max_pd done")
-#  max_var_bl      = data.maxVariableBlockLength( excludeAmbiguous=FALSE )
+  max_var_bl      = data.maxVariableBlockLength( excludeAmbiguous=FALSE )
   max_var_bl_amb  = data.maxVariableBlockLength( excludeAmbiguous=TRUE )
   print("max_var_bl done")
-#  min_gc          = data.minGcContent( excludeAmbiguous=FALSE )
+  min_gc          = data.minGcContent( excludeAmbiguous=FALSE )
   min_gc_amb      = data.minGcContent( excludeAmbiguous=TRUE )
   print("min_gc done")
-#  min_pd          = data.minPairwiseDifference( excludeAmbiguous=FALSE )
-#  min_pd_amb      = data.minPairwiseDifference( excludeAmbiguous=TRUE )
-#  print("min_pd done")
+  min_pd          = data.minPairwiseDifference( excludeAmbiguous=FALSE )
+  min_pd_amb      = data.minPairwiseDifference( excludeAmbiguous=TRUE )
+  print("min_pd done")
   n_char          = data.nchar()
   n_taxa          = data.ntaxa()
   print("n char tax done")
-#  n_inv_b         = data.numInvariableBlocks( excludeAmbiguous=FALSE )
+  n_inv_b         = data.numInvariableBlocks( excludeAmbiguous=FALSE )
   n_inv_b_amb     = data.numInvariableBlocks( excludeAmbiguous=TRUE )
   print("n_inv_b done")
   mean_gc         = data.meanGcContent( excludeAmbiguous=FALSE )
-#  mean_gc_amb     = data.meanGcContent( excludeAmbiguous=TRUE )
+  mean_gc_amb     = data.meanGcContent( excludeAmbiguous=TRUE )
   print("mean_gc done")
   mean_gc_1       = data.meanGcContentByCodonPosition(1, excludeAmbiguous=FALSE )
-#  mean_gc_1_amb   = data.meanGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
+  mean_gc_1_amb   = data.meanGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
   print("mean_gc_1 done")
   mean_gc_2       = data.meanGcContentByCodonPosition(2, excludeAmbiguous=FALSE )
-#  mean_gc_2_amb   = data.meanGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
+  mean_gc_2_amb   = data.meanGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
   print("mean_gc_2 done")
   mean_gc_3       = data.meanGcContentByCodonPosition(3, excludeAmbiguous=FALSE )
-#  mean_gc_3_amb   = data.meanGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
+  mean_gc_3_amb   = data.meanGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
   print("mean_gc_3 done")
   var_gc          = data.varGcContent( excludeAmbiguous=FALSE )
-#  var_gc_amb      = data.varGcContent( excludeAmbiguous=TRUE )
+  var_gc_amb      = data.varGcContent( excludeAmbiguous=TRUE )
   print("var_gc done")
   var_gc_1        = data.varGcContentByCodonPosition(1, excludeAmbiguous=FALSE )
-#  var_gc_1_amb    = data.varGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
+  var_gc_1_amb    = data.varGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
   print("var_gc_1 done")
   var_gc_2        = data.varGcContentByCodonPosition(2, excludeAmbiguous=FALSE )
-#  var_gc_2_amb    = data.varGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
+  var_gc_2_amb    = data.varGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
   print("var_gc_2 done")
   var_gc_3        = data.varGcContentByCodonPosition(3, excludeAmbiguous=FALSE )
-#  var_gc_3_amb    = data.varGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
+  var_gc_3_amb    = data.varGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
   print("var_gc_3 done")
 #  n_taxa_50       = data.numTaxaMissingSequence( 0.5 )
 #  n_taxa_30       = data.numTaxaMissingSequence( 0.3 )
 #  n_taxa_10       = data.numTaxaMissingSequence( 0.1 )
 #  print("n_taxa done")
-#  theta           = fnWattersonsTheta( data )
-#  seg_sites       = fnSegregatingSites( data )
+  theta           = fnWattersonsTheta( data )
+  seg_sites       = fnSegregatingSites( data )
   tajima_d        = fnTajimasD( data )
   tajima_pi       = fnTajimasPi( data )
   print("stats done")
@@ -203,22 +225,40 @@ print("written colnames")
 
   #write(file=outfileName, append=TRUE, sep=",",
   outline0 = v(
+  num_inv,
   num_inv_amb,
+  seg_sites,
   max_gc,
   max_gc_amb,
+  min_inv_bl,
   min_inv_bl_amb,
   max_pd,
+  max_pd_amb,
+  max_var_bl,
   max_var_bl_amb,
+  min_gc,
   min_gc_amb,
+  min_pd,
+  min_pd_amb,
+  n_inv_b,
   n_inv_b_amb,
   mean_gc,
+  mean_gc_amb,
   mean_gc_1,
+  mean_gc_1_amb,
   mean_gc_2,
+  mean_gc_2_amb,
   mean_gc_3,
+  mean_gc_3_amb,
   var_gc,
+  var_gc_amb,
   var_gc_1,
+  var_gc_1_amb,
   var_gc_2,
+  var_gc_2_amb,
   var_gc_3,
+  var_gc_3_amb,
+  theta,
   tajima_d,
   tajima_pi,
   mult_lnl)
@@ -256,15 +296,15 @@ tipfreq_4 = tipfreqs[5]
 tipfreq_5 = tipfreqs[6]
 tipfreq_6 = tipfreqs[7]
 print("tipfreqs done")
-#n_inv_morpho = emp_data_morph.getNumInvariantSites( excludeAmbiguous=FALSE )
+n_inv_morpho = emp_data_morph.getNumInvariantSites( excludeAmbiguous=FALSE )
 n_inv_morpho_amb = emp_data_morph.getNumInvariantSites( excludeAmbiguous=TRUE )
 print("n_inv_morpho done")
 max_pd_morpho = emp_data_morph.maxPairwiseDifference( excludeAmbiguous=FALSE )
-#max_pd_morpho_amb = emp_data_morph.maxPairwiseDifference( excludeAmbiguous=TRUE )
+max_pd_morpho_amb = emp_data_morph.maxPairwiseDifference( excludeAmbiguous=TRUE )
 print("max_pd_morpho done")
-#min_pd_morpho = emp_data_morph.minPairwiseDifference( excludeAmbiguous=FALSE )
-#min_pd_morpho_amb = emp_data_morph.minPairwiseDifference( excludeAmbiguous=TRUE )
-#print("min_pd_morpho done")
+min_pd_morpho = emp_data_morph.minPairwiseDifference( excludeAmbiguous=FALSE )
+min_pd_morpho_amb = emp_data_morph.minPairwiseDifference( excludeAmbiguous=TRUE )
+print("min_pd_morpho done")
 #write(file=outfileName, append=TRUE, sep=",",
 outline3 = v(
   tipfreq_0,
@@ -274,8 +314,12 @@ outline3 = v(
   tipfreq_4,
   tipfreq_5,
   tipfreq_6,
+  n_inv_morpho,
   n_inv_morpho_amb,
-  max_pd_morpho
+  max_pd_morpho,
+  max_pd_morpho_amb,
+  min_pd_morpho,
+  min_pd_morpho_amb
 )
 outline2.append(outline3)
 print("morpho calcs saved")
@@ -298,22 +342,40 @@ for (j in 1:num_markers) {
   # initiate outfile and populate with column names
 
   colnames2 <- v(
+  "Number Invariant Sites" + " " + markers[j],
   "Number Invariant Sites Excluding Ambiguous" + " " + markers[j],
+  "Segregating-Sites" + " " + markers[j],
   "Max GC" + " " + markers[j],
   "Max GC Excluding Ambiguous" + " " + markers[j],
+  "Max Invariant Block Length" + " " + markers[j],
   "Max Invariant Block Length Excluding Ambiguous" + " " + markers[j],
   "Max Pairwise Difference" + " " + markers[j],
+  "Max Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Max Variable Block Length" + " " + markers[j],
   "Max Variable Block Length Excluding Ambiguous" + " " + markers[j],
+  "Min GC" + " " + markers[j],
   "Min GC Excluding Ambiguous" + " " + markers[j],
+  "Min Pairwise Difference" + " " + markers[j],
+  "Min Pairwise Difference Excluding Ambiguous" + " " + markers[j],
+  "Number Invariable Block" + " " + markers[j],
   "Number Invariable Block Excluding Ambiguous" + " " + markers[j],
   "Mean GC" + " " + markers[j],
+  "Mean GC Excluding Ambiguous" + " " + markers[j],
   "Mean GC 1" + " " + markers[j],
+  "Mean GC 1 Excluding Ambiguous" + " " + markers[j],
   "Mean GC 2" + " " + markers[j],
+  "Mean GC 2 Excluding Ambiguous" + " " + markers[j],
   "Mean GC 3" + " " + markers[j],
+  "Mean GC 3 Excluding Ambiguous" + " " + markers[j],
   "Var GC" + " " + markers[j],
+  "Var GC Excluding Ambiguous" + " " + markers[j],
   "Var GC 1" + " " + markers[j],
+  "Var GC 1 Excluding Ambiguous" + " " + markers[j],
   "Var GC 2" + " " + markers[j],
+  "Var GC 2 Excluding Ambiguous" + " " + markers[j],
   "Var GC 3" + " " + markers[j],
+  "Var GC 3 Excluding Ambiguous" + " " + markers[j],
+  "Theta" + " " + markers[j],
   "Tajima-D" + " " + markers[j],
   "Tajima-Pi" + " " + markers[j],
   "Multinomial-Likelihood" + " " + markers[j]
@@ -333,8 +395,12 @@ for (j in 1:num_markers) {
     "Tip State Frequency 4",
     "Tip State Frequency 5",
     "Tip State Frequency 6",
+    "Number Invariant Sites Morpho",
     "Number Invariant Sites Morpho Excluding Ambiguous",
-    "Max Pairwise Difference Morpho"
+    "Max Pairwise Difference Morpho",
+    "Max Pairwise Difference Morpho Excluding Ambiguous",
+    "Min Pairwise Difference Morpho",
+    "Min Pairwise Difference Morpho Excluding Ambiguous"
     )
     colnames3.size()
     colnames.append(colnames3)
@@ -377,63 +443,63 @@ print("written colnames")
 
     sim_data <- readDiscreteCharacterData(input_dir_sim + "/posterior_predictive_sim_" + i + "/phySeq[" + j + "].nex" )
 
-#    num_inv         = sim_data.getNumInvariantSites( excludeAmbiguous=FALSE )
+    num_inv         = sim_data.getNumInvariantSites( excludeAmbiguous=FALSE )
     num_inv_amb     = sim_data.getNumInvariantSites( excludeAmbiguous=TRUE )
     print("num_inv done")
     max_gc          = sim_data.maxGcContent( excludeAmbiguous=FALSE )
     max_gc_amb      = sim_data.maxGcContent( excludeAmbiguous=TRUE )
     print("max_gc done")
-#    min_inv_bl      = sim_data.maxInvariableBlockLength( excludeAmbiguous=FALSE )
+    min_inv_bl      = sim_data.maxInvariableBlockLength( excludeAmbiguous=FALSE )
     min_inv_bl_amb  = sim_data.maxInvariableBlockLength( excludeAmbiguous=TRUE )
-    print("min_inv_bl done")
+    print("min_gc done")
     max_pd          = sim_data.maxPairwiseDifference( excludeAmbiguous=FALSE )
-#    max_pd_amb      = sim_data.maxPairwiseDifference( excludeAmbiguous=TRUE )
+    max_pd_amb      = sim_data.maxPairwiseDifference( excludeAmbiguous=TRUE )
     print("max_pd done")
-#    max_var_bl      = sim_data.maxVariableBlockLength( excludeAmbiguous=FALSE )
+    max_var_bl      = sim_data.maxVariableBlockLength( excludeAmbiguous=FALSE )
     max_var_bl_amb  = sim_data.maxVariableBlockLength( excludeAmbiguous=TRUE )
     print("max_var_bl done")
-#    min_gc          = sim_data.minGcContent( excludeAmbiguous=FALSE )
+    min_gc          = sim_data.minGcContent( excludeAmbiguous=FALSE )
     min_gc_amb      = sim_data.minGcContent( excludeAmbiguous=TRUE )
     print("min_gc done")
-#    min_pd          = sim_data.minPairwiseDifference( excludeAmbiguous=FALSE )
-#    min_pd_amb      = sim_data.minPairwiseDifference( excludeAmbiguous=TRUE )
-#    print("min_pd done")
+    min_pd          = sim_data.minPairwiseDifference( excludeAmbiguous=FALSE )
+    min_pd_amb      = sim_data.minPairwiseDifference( excludeAmbiguous=TRUE )
+    print("min_pd done")
     n_char          = sim_data.nchar()
     n_taxa          = sim_data.ntaxa()
     print("n char tax done")
-  #  n_inv_b         = sim_data.numInvariableBlocks( excludeAmbiguous=FALSE )
+    n_inv_b         = sim_data.numInvariableBlocks( excludeAmbiguous=FALSE )
     n_inv_b_amb     = sim_data.numInvariableBlocks( excludeAmbiguous=TRUE )
     print("n_inv_b done")
     mean_gc         = sim_data.meanGcContent( excludeAmbiguous=FALSE )
-#    mean_gc_amb     = sim_data.meanGcContent( excludeAmbiguous=TRUE )
+    mean_gc_amb     = sim_data.meanGcContent( excludeAmbiguous=TRUE )
     print("mean_gc done")
     mean_gc_1       = sim_data.meanGcContentByCodonPosition(1, excludeAmbiguous=FALSE )
-#    mean_gc_1_amb   = sim_data.meanGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
+    mean_gc_1_amb   = sim_data.meanGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
     print("mean_gc_1 done")
     mean_gc_2       = sim_data.meanGcContentByCodonPosition(2, excludeAmbiguous=FALSE )
-#    mean_gc_2_amb   = sim_data.meanGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
+    mean_gc_2_amb   = sim_data.meanGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
     print("mean_gc_2 done")
     mean_gc_3       = sim_data.meanGcContentByCodonPosition(3, excludeAmbiguous=FALSE )
-#    mean_gc_3_amb   = sim_data.meanGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
+    mean_gc_3_amb   = sim_data.meanGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
     print("mean_gc_3 done")
     var_gc          = sim_data.varGcContent( excludeAmbiguous=FALSE )
-#    var_gc_amb      = sim_data.varGcContent( excludeAmbiguous=TRUE )
+    var_gc_amb      = sim_data.varGcContent( excludeAmbiguous=TRUE )
     print("var_gc done")
     var_gc_1        = sim_data.varGcContentByCodonPosition(1, excludeAmbiguous=FALSE )
-#    var_gc_1_amb    = sim_data.varGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
+    var_gc_1_amb    = sim_data.varGcContentByCodonPosition(1, excludeAmbiguous=TRUE )
     print("var_gc_1 done")
     var_gc_2        = sim_data.varGcContentByCodonPosition(2, excludeAmbiguous=FALSE )
-#    var_gc_2_amb    = sim_data.varGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
+    var_gc_2_amb    = sim_data.varGcContentByCodonPosition(2, excludeAmbiguous=TRUE )
     print("var_gc_2 done")
     var_gc_3        = sim_data.varGcContentByCodonPosition(3, excludeAmbiguous=FALSE )
-#    var_gc_3_amb    = sim_data.varGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
+    var_gc_3_amb    = sim_data.varGcContentByCodonPosition(3, excludeAmbiguous=TRUE )
     print("var_gc_3 done")
 #    n_taxa_50       = sim_data.numTaxaMissingSequence( 0.5 )
 #    n_taxa_30       = sim_data.numTaxaMissingSequence( 0.3 )
 #    n_taxa_10       = sim_data.numTaxaMissingSequence( 0.1 )
 #    print("n_taxa done")
-#    theta           = fnWattersonsTheta( sim_data )
-#    seg_sites       = fnSegregatingSites( sim_data )
+    theta           = fnWattersonsTheta( sim_data )
+    seg_sites       = fnSegregatingSites( sim_data )
     tajima_d        = fnTajimasD( sim_data )
     tajima_pi       = fnTajimasPi( sim_data )
     print("stats done")
@@ -444,22 +510,40 @@ print("written colnames")
 
     #write(file=outfileName, append=TRUE, sep=",",
     outline0 = v(
+    num_inv,
     num_inv_amb,
+    seg_sites,
     max_gc,
     max_gc_amb,
+    min_inv_bl,
     min_inv_bl_amb,
     max_pd,
+    max_pd_amb,
+    max_var_bl,
     max_var_bl_amb,
+    min_gc,
     min_gc_amb,
+    min_pd,
+    min_pd_amb,
+    n_inv_b,
     n_inv_b_amb,
     mean_gc,
+    mean_gc_amb,
     mean_gc_1,
+    mean_gc_1_amb,
     mean_gc_2,
+    mean_gc_2_amb,
     mean_gc_3,
+    mean_gc_3_amb,
     var_gc,
+    var_gc_amb,
     var_gc_1,
+    var_gc_1_amb,
     var_gc_2,
+    var_gc_2_amb,
     var_gc_3,
+    var_gc_3_amb,
+    theta,
     tajima_d,
     tajima_pi,
     mult_lnl)
@@ -491,15 +575,15 @@ print("written colnames")
   tipfreq_5 = tipfreqs[6]
   tipfreq_6 = tipfreqs[7]
   print("tipfreqs done")
-#  n_inv_morpho = sim_data_morph_combo.getNumInvariantSites( excludeAmbiguous=FALSE )
+  n_inv_morpho = sim_data_morph_combo.getNumInvariantSites( excludeAmbiguous=FALSE )
   n_inv_morpho_amb = sim_data_morph_combo.getNumInvariantSites( excludeAmbiguous=TRUE )
   print("n_inv_morpho done")
   max_pd_morpho = sim_data_morph_combo.maxPairwiseDifference( excludeAmbiguous=FALSE )
-#  max_pd_morpho_amb = sim_data_morph_combo.maxPairwiseDifference( excludeAmbiguous=TRUE )
+  max_pd_morpho_amb = sim_data_morph_combo.maxPairwiseDifference( excludeAmbiguous=TRUE )
   print("max_pd_morpho done")
-#  min_pd_morpho = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=FALSE )
-#  min_pd_morpho_amb = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=TRUE )
-#  print("min_pd_morpho done")
+  min_pd_morpho = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=FALSE )
+  min_pd_morpho_amb = sim_data_morph_combo.minPairwiseDifference( excludeAmbiguous=TRUE )
+  print("min_pd_morpho done")
   #write(file=outfileName, append=TRUE, sep=",",
   outline3 = v(
     tipfreq_0,
@@ -509,8 +593,12 @@ print("written colnames")
     tipfreq_4,
     tipfreq_5,
     tipfreq_6,
+    n_inv_morpho,
     n_inv_morpho_amb,
-    max_pd_morpho
+    max_pd_morpho,
+    max_pd_morpho_amb,
+    min_pd_morpho,
+    min_pd_morpho_amb
   )
   outline2.append(outline3)
   print("morpho calcs saved")

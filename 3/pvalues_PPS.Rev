@@ -7,8 +7,11 @@ current_model = 1  # sets model to use, see below
 models = ["TEFBD", "unpart"]
 proposed_model = models[current_model]
 
+markers <- v("18s", "28s", "ABD","Arg", "CAD", "EF1", "EF2", "lg", "WG")
+num_markers = markers.size()
+
 output_dir = "results/"
-file_stem = "skyline_" + rep
+file_stem = "time_homo_" + rep  #"skyline_" + rep
 
 input_dir = "results/"
 
@@ -17,57 +20,72 @@ sim_pps_file = input_dir + "simulated_data_" + file_stem + ".csv"
 outfileName = output_dir + "pvalues_" + file_stem + ".csv"
 
 # statistic names (this can be useful to post-hoc customise but should probably be replaced by using the ones in the files to avoid mishaps - need to be same as in summary script)
-statID = v(
-  "SimID",
-  "Number Invariant Sites",
-  "Number Invariant Sites Excluding Ambiguous",
-  "Segregating-Sites",
-  "Max GC",
-  "Max GC Excluding Ambiguous",
-  "Max Invariant Block Length",
-  "Max Invariant Block Length Excluding Ambiguous",
-  "Max Pairwise Difference",
-  "Max Pairwise Difference Excluding Ambiguous",
-  "Max Variable Block Length",
-  "Max Variable Block Length Excluding Ambiguous",
-  "Min GC",
-  "Min GC Excluding Ambiguous",
-  "Min Pairwise Difference",
-  "Min Pairwise Difference Excluding Ambiguous",
-  "Number Invariable Block",
-  "Number Invariable Block Excluding Ambiguous",
-  "Mean GC",
-  "Mean GC Excluding Ambiguous",
-  "Mean GC 1",
-  "Mean GC 1 Excluding Ambiguous",
-  "Mean GC 2",
-  "Mean GC 2 Excluding Ambiguous",
-  "Mean GC 3",
-  "Mean GC 3 Excluding Ambiguous",
-  "Var GC",
-  "Var GC Excluding Ambiguous",
-  "Var GC 1",
-  "Var GC 1 Excluding Ambiguous",
-  "Var GC 2",
-  "Var GC 2 Excluding Ambiguous",
-  "Var GC 3",
-  "Var GC 3 Excluding Ambiguous",
-  "Theta",
-  "Tajima-D",
-  "Tajima-Pi",
-  "Multinomial-Likelihood"
-)
+print("set column names")
+statID <- v("SimID")
+print("colnames molecular")
+for (j in 1:num_markers) {
+  # initiate outfile and populate with column names
 
+  statID2 <- v(
+  "Number Invariant Sites Excluding Ambiguous" + " " + markers[j],
+  "Max GC" + " " + markers[j],
+  "Max GC Excluding Ambiguous" + " " + markers[j],
+  "Max Invariant Block Length Excluding Ambiguous" + " " + markers[j],
+  "Max Pairwise Difference" + " " + markers[j],
+  "Max Variable Block Length Excluding Ambiguous" + " " + markers[j],
+  "Min GC Excluding Ambiguous" + " " + markers[j],
+  "Number Invariable Block Excluding Ambiguous" + " " + markers[j],
+  "Mean GC" + " " + markers[j],
+  "Mean GC 1" + " " + markers[j],
+  "Mean GC 2" + " " + markers[j],
+  "Mean GC 3" + " " + markers[j],
+  "Var GC" + " " + markers[j],
+  "Var GC 1" + " " + markers[j],
+  "Var GC 2" + " " + markers[j],
+  "Var GC 3" + " " + markers[j],
+  "Tajima-D" + " " + markers[j],
+  "Tajima-Pi" + " " + markers[j],
+  "Multinomial-Likelihood" + " " + markers[j]
+  )
+  statID2.size()
+  statID.append(statID2)
+  statID.size()
+}
+print("colnames morpho")
+# Morpho Data
+# for (k in 1:(n_morpho_states-1)) {  #just pool them all for now, though this may eventually not be reasonable
+    statID3 <- v(
+    "Tip State Frequency 0",
+    "Tip State Frequency 1",
+    "Tip State Frequency 2",
+    "Tip State Frequency 3",
+    "Tip State Frequency 4",
+    "Tip State Frequency 5",
+    "Tip State Frequency 6",
+    "Number Invariant Sites Morpho Excluding Ambiguous",
+    "Max Pairwise Difference Morpho"
+    )
+    statID3.size()
+    statID.append(statID3)
+    statID.size()
+    # later add distinction of using fossil vs extant only, as well as delta of fossil and extant
+    # also add state relative time once tracked during inference?
+#}
+print("done setting colnames")
 ################### start of effect size calculations ########################
-
+print("load emp sumstats")
 empData = readDataDelimitedFile(emp_pps_file,header=TRUE,delimiter=",")
+print("load sim sumstats")
 simData = readDataDelimitedFile(sim_pps_file,header=TRUE,delimiter=",")
+print("done loading sumstats")
 
 ## setup the pvalue output file
+print("initialise file")
 write(file=outfileName, "Statistic", "Lower 1-tailed", "Upper 1-tailed", "Two-tailed", "Midpoint", "Effect Size", sep=",", append=FALSE)
 write(file=outfileName, "\n", sep=",", append=TRUE)
 
 # for each statistic (skipping the first for the pps sims, as it is the rep number)
+print("start pvalues")
 for (stat in 2:simData[1].size()) {
   ## transform the data for easily manipulation
   ## we need to retrieve what would amount to a column
@@ -75,33 +93,38 @@ for (stat in 2:simData[1].size()) {
   # numbers <- simData.column(x)
   k = 1
   for (rep in 1:simData.size()) {
-    if (simData[rep][stat] != "nan" & 
-        simData[rep][stat] != "inf" &
-        simData[rep][stat] != "-nan") {
+#    if (simData[rep][stat] != "nan" &
+#        simData[rep][stat] != "inf" &
+#        simData[rep][stat] != "-nan") {
           numbers[k++] = simData[rep][stat]
-        } else {
-          numbers[k++] = 0.0
-        }
+#        } else {
+#          numbers[k++] = 0.0
+#        }
       }
-
+## removed check for inf and nan for now to avoid memory leak
+print("done extracting stat " + stat + " from Sims")
 
   ## calculate median value of PPD here
+  print("calc median")
   m = median(numbers)
 
   ## calculate effect size here
   # empValue = empData[1][x-1]
   # -1 to make up for missing first column with sim ID
-  if (empData[1][stat-1] != "nan" &
-      empData[1][stat-1] != "inf" &
-      empData[1][stat-1] != "-nan") {
-        empValue = empData[1][stat-1]
+  # -1 is obsolete because emp has first column too now
+  if (empData[1][stat] != "nan" &
+      empData[1][stat] != "inf" &
+      empData[1][stat] != "-nan") {
+        empValue = empData[1][stat]
       } else {
         empValue = 0.0
       }
-
+print("done extracting emp value")
+print("calc effect size")
   effect_size = abs((m - empValue) / stdev(numbers))
 
   ## Calculate and return a vector of lower, equal, and upper pvalues for a given test statistic
+  print("calc pvalues")
   p_values <- posteriorPredictiveProbability(numbers, empValue)
 
   ## 1-tailed
@@ -114,7 +137,7 @@ for (stat in 2:simData[1].size()) {
 
   ## 2-tailed
   two_tail_p_value = 2 * (min(v(lower_p_value+equal_p_value, upper_p_value+equal_p_value)))
-
+print("write pvals stat " + stat + " to file")
   write(file=outfileName, statID[stat], lower_p_value+equal_p_value, upper_p_value+equal_p_value, two_tail_p_value, midpoint_p_value, effect_size, sep=",", append=TRUE)
   write(file=outfileName, "\n", sep=",", append=TRUE)
 

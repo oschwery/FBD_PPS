@@ -20,6 +20,18 @@ wc -l antsSA2.var
 # for summarising, remember to change which trait model it is!
 # manually remove the [ and ] for now
 
+# remove burnin
+sed '2,3000d' antsSA.trees > antsSA2.trees
+wc -l antsSA.trees
+wc -l antsSA2.trees
+# remove all except trees
+cut -f5- antsSA2.trees > antsSA3.trees
+# remove header
+sed '1d' antsSA3.trees > antsSA4.trees
+# thin down to ~200 trees
+sed -n '0~20p' antsSA4.trees > antsSA5.trees
+wc -l antsSA5.trees
+
 #############################
 # Excluded sumstats:
 #############################

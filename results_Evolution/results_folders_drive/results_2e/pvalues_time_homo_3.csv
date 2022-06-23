@@ -1,0 +1,181 @@
+Statistic,Lower 1-tailed,Upper 1-tailed,Two-tailed,Midpoint,Effect Size
+Number Invariant Sites Excluding Ambiguous 18s,1,0,0,1,4.453488
+Max GC 18s,0.43,0.57,0.86,0.43,0.2319023
+Max GC Excluding Ambiguous 18s,0.415,0.585,0.83,0.415,0.1735237
+Max Invariant Block Length Excluding Ambiguous 18s,1,0,0,1,14.23644
+Max Pairwise Difference 18s,0.96,0.075,0.15,0.9425,1.637167
+Max Variable Block Length Excluding Ambiguous 18s,0.98,0.065,0.13,0.9575,2.417553
+Min GC Excluding Ambiguous 18s,0.35,0.65,0.7,0.35,0.567038
+Number Invariable Block Excluding Ambiguous 18s,0,1,0,0,6.957584
+Mean GC 18s,0.355,0.645,0.71,0.355,0.2910548
+Mean GC 1 18s,0.585,0.415,0.83,0.585,0.1214433
+Mean GC 2 18s,0.355,0.645,0.71,0.355,0.3582186
+Mean GC 3 18s,0.18,0.82,0.36,0.18,0.9710598
+Var GC 18s,0.305,0.695,0.61,0.305,0.2923824
+Var GC 1 18s,0.67,0.33,0.66,0.67,0.05572601
+Var GC 2 18s,0.33,0.67,0.66,0.33,0.07421383
+Var GC 3 18s,0.16,0.84,0.32,0.16,0.6308233
+Tajima-D 18s,0.38,0.62,0.76,0.38,0.4736318
+Tajima-Pi 18s,0.69,0.31,0.62,0.69,1.029268
+Multinomial-Likelihood 18s,1,0,0,1,4.721407
+Number Invariant Sites Excluding Ambiguous 28s,1,0,0,1,6.716536
+Max GC 28s,0.71,0.29,0.58,0.71,0.5546075
+Max GC Excluding Ambiguous 28s,0.525,0.475,0.95,0.525,0.04231619
+Max Invariant Block Length Excluding Ambiguous 28s,1,0,0,1,14.43866
+Max Pairwise Difference 28s,0,1,0,0,3.777946
+Max Variable Block Length Excluding Ambiguous 28s,1,0.005,0.01,0.9975,4.923945
+Min GC Excluding Ambiguous 28s,0.495,0.505,0.99,0.495,0.03426562
+Number Invariable Block Excluding Ambiguous 28s,0,1,0,0,9.820151
+Mean GC 28s,0.55,0.45,0.9,0.55,0.1287419
+Mean GC 1 28s,0.53,0.47,0.94,0.53,0.1504478
+Mean GC 2 28s,0.175,0.825,0.35,0.175,1.059824
+Mean GC 3 28s,0.865,0.135,0.27,0.865,1.048581
+Var GC 28s,0.6,0.4,0.8,0.6,0.06702066
+Var GC 1 28s,0.575,0.425,0.85,0.575,0.153257
+Var GC 2 28s,0.18,0.82,0.36,0.18,0.8620963
+Var GC 3 28s,0.845,0.155,0.31,0.845,0.9464199
+Tajima-D 28s,0,1,0,0,5.143892
+Tajima-Pi 28s,0,1,0,0,2.538435
+Multinomial-Likelihood 28s,1,0,0,1,7.132347
+Number Invariant Sites Excluding Ambiguous ABD,0.995,0.01,0.02,0.9925,2.600673
+Max GC ABD,0.975,0.025,0.05,0.975,1.940205
+Max GC Excluding Ambiguous ABD,0.995,0.005,0.01,0.995,2.3499
+Max Invariant Block Length Excluding Ambiguous ABD,0.445,0.765,0.89,0.34,0.3592397
+Max Pairwise Difference ABD,0.52,0.545,1.04,0.4875,0
+Max Variable Block Length Excluding Ambiguous ABD,0,1,0,0,2.197763
+Min GC Excluding Ambiguous ABD,0.21,0.79,0.42,0.21,0.7116221
+Number Invariable Block Excluding Ambiguous ABD,1,0,0,1,4.286594
+Mean GC ABD,0.68,0.32,0.64,0.68,0.2078174
+Mean GC 1 ABD,0.7,0.3,0.6,0.7,0.5628181
+Mean GC 2 ABD,0.09,0.91,0.18,0.09,1.210418
+Mean GC 3 ABD,0.945,0.055,0.11,0.945,1.553336
+Var GC ABD,0.665,0.335,0.67,0.665,0.3384672
+Var GC 1 ABD,0.695,0.305,0.61,0.695,0.5095706
+Var GC 2 ABD,0.135,0.865,0.27,0.135,1.183
+Var GC 3 ABD,0.94,0.06,0.12,0.94,1.530652
+Tajima-D ABD,0.005,0.995,0.01,0.005,2.557785
+Tajima-Pi ABD,0.055,0.945,0.11,0.055,0.7502117
+Multinomial-Likelihood ABD,0.985,0.015,0.03,0.985,2.458244
+Number Invariant Sites Excluding Ambiguous Arg,0.26,0.76,0.52,0.25,0.6291776
+Max GC Arg,0.63,0.37,0.74,0.63,0.1964189
+Max GC Excluding Ambiguous Arg,0.62,0.38,0.76,0.62,0.2084367
+Max Invariant Block Length Excluding Ambiguous Arg,0.025,0.995,0.05,0.015,1.589649
+Max Pairwise Difference Arg,1,0,0,1,3.019975
+Max Variable Block Length Excluding Ambiguous Arg,0.805,0.395,0.79,0.705,0.795178
+Min GC Excluding Ambiguous Arg,0,1,0,0,4.023668
+Number Invariable Block Excluding Ambiguous Arg,1,0,0,1,4.864543
+Mean GC Arg,0.13,0.87,0.26,0.13,1.418296
+Mean GC 1 Arg,1,0,0,1,4.210131
+Mean GC 2 Arg,0.21,0.79,0.42,0.21,1.009147
+Mean GC 3 Arg,0,1,0,0,6.080972
+Var GC Arg,0.08,0.92,0.16,0.08,1.01198
+Var GC 1 Arg,1,0,0,1,5.212879
+Var GC 2 Arg,0.145,0.855,0.29,0.145,1.125426
+Var GC 3 Arg,0,1,0,0,4.971927
+Tajima-D Arg,0.525,0.475,0.95,0.525,0.5737248
+Tajima-Pi Arg,1,0,0,1,3.082264e+14
+Multinomial-Likelihood Arg,0.245,0.755,0.49,0.245,0.5832689
+Number Invariant Sites Excluding Ambiguous CAD,0.14,0.875,0.28,0.1325,1.157966
+Max GC CAD,1,0,0,1,3.027504
+Max GC Excluding Ambiguous CAD,0.925,0.075,0.15,0.925,0.8273301
+Max Invariant Block Length Excluding Ambiguous CAD,0,1,0,0,1.871692
+Max Pairwise Difference CAD,1,0,0,1,7.992619
+Max Variable Block Length Excluding Ambiguous CAD,1,0,0,1,5.861033
+Min GC Excluding Ambiguous CAD,0.58,0.42,0.84,0.58,0.738996
+Number Invariable Block Excluding Ambiguous CAD,1,0,0,1,2.9506
+Mean GC CAD,0.1,0.9,0.2,0.1,1.504504
+Mean GC 1 CAD,0.91,0.09,0.18,0.91,1.108097
+Mean GC 2 CAD,0,1,0,0,5.922378
+Mean GC 3 CAD,0.985,0.015,0.03,0.985,1.699378
+Var GC CAD,0.11,0.89,0.22,0.11,1.540714
+Var GC 1 CAD,0.845,0.155,0.31,0.845,0.9821594
+Var GC 2 CAD,0,1,0,0,5.262963
+Var GC 3 CAD,0.995,0.005,0.01,0.995,2.269025
+Tajima-D CAD,0.995,0.005,0.01,0.995,2.609324
+Tajima-Pi CAD,0.95,0.05,0.1,0.95,2.889476
+Multinomial-Likelihood CAD,0.13,0.87,0.26,0.13,1.072266
+Number Invariant Sites Excluding Ambiguous EF1,0.81,0.205,0.41,0.8025,0.76991
+Max GC EF1,0.14,0.86,0.28,0.14,1.301003
+Max GC Excluding Ambiguous EF1,0.145,0.855,0.29,0.145,1.303901
+Max Invariant Block Length Excluding Ambiguous EF1,0.21,0.92,0.42,0.145,0.8996931
+Max Pairwise Difference EF1,0.335,0.715,0.67,0.31,0.4164488
+Max Variable Block Length Excluding Ambiguous EF1,0.465,0.835,0.93,0.315,0.6780204
+Min GC Excluding Ambiguous EF1,0,1,0,0,3.03544
+Number Invariable Block Excluding Ambiguous EF1,1,0,0,1,5.298382
+Mean GC EF1,0.05,0.95,0.1,0.05,1.944692
+Mean GC 1 EF1,0,1,0,0,5.581809
+Mean GC 2 EF1,1,0,0,1,2.921712
+Mean GC 3 EF1,0.02,0.98,0.04,0.02,2.281762
+Var GC EF1,0.055,0.945,0.11,0.055,1.884177
+Var GC 1 EF1,0,1,0,0,4.519735
+Var GC 2 EF1,1,0,0,1,3.453621
+Var GC 3 EF1,0.02,0.98,0.04,0.02,2.180397
+Tajima-D EF1,0.07,0.93,0.14,0.07,1.420094
+Tajima-Pi EF1,0.2,0.8,0.4,0.2,1.307465
+Multinomial-Likelihood EF1,0.715,0.285,0.57,0.715,0.5227853
+Number Invariant Sites Excluding Ambiguous EF2,0.065,0.945,0.13,0.06,1.47221
+Max GC EF2,0.98,0.02,0.04,0.98,2.0486
+Max GC Excluding Ambiguous EF2,0.98,0.02,0.04,0.98,2.0486
+Max Invariant Block Length Excluding Ambiguous EF2,0,1,0,0,2.435002
+Max Pairwise Difference EF2,0.95,0.06,0.12,0.945,1.785255
+Max Variable Block Length Excluding Ambiguous EF2,0.6,0.77,1.2,0.415,0
+Min GC Excluding Ambiguous EF2,0.005,0.995,0.01,0.005,2.370258
+Number Invariable Block Excluding Ambiguous EF2,1,0,0,1,6.688491
+Mean GC EF2,0.2,0.8,0.4,0.2,0.7805777
+Mean GC 1 EF2,0.935,0.065,0.13,0.935,1.260804
+Mean GC 2 EF2,0.45,0.55,0.9,0.45,0.1586711
+Mean GC 3 EF2,0,1,0,0,3.011883
+Var GC EF2,0.18,0.82,0.36,0.18,0.8287474
+Var GC 1 EF2,0.97,0.03,0.06,0.97,1.888346
+Var GC 2 EF2,0.495,0.505,0.99,0.495,0.1646305
+Var GC 3 EF2,0,1,0,0,2.711737
+Tajima-D EF2,1,0,0,1,2.751417
+Tajima-Pi EF2,1,0,0,1,2.607901
+Multinomial-Likelihood EF2,0.06,0.94,0.12,0.06,1.530615
+Number Invariant Sites Excluding Ambiguous lg,0.98,0.02,0.04,0.98,2.012082
+Max GC lg,0.57,0.43,0.86,0.57,0.2597275
+Max GC Excluding Ambiguous lg,0.57,0.43,0.86,0.57,0.2599423
+Max Invariant Block Length Excluding Ambiguous lg,0.68,0.645,1.29,0.5175,0
+Max Pairwise Difference lg,0.895,0.13,0.26,0.8825,1.17901
+Max Variable Block Length Excluding Ambiguous lg,0.64,0.5,1,0.57,0.1809579
+Min GC Excluding Ambiguous lg,0,1,0,0,3.820962
+Number Invariable Block Excluding Ambiguous lg,0.915,0.09,0.18,0.9125,1.421813
+Mean GC lg,0.125,0.875,0.25,0.125,1.037567
+Mean GC 1 lg,1,0,0,1,3.374385
+Mean GC 2 lg,0.015,0.985,0.03,0.015,2.258532
+Mean GC 3 lg,0,1,0,0,3.345018
+Var GC lg,0.155,0.845,0.31,0.155,0.9967407
+Var GC 1 lg,1,0,0,1,3.947763
+Var GC 2 lg,0.015,0.985,0.03,0.015,2.091527
+Var GC 3 lg,0,1,0,0,3.040173
+Tajima-D lg,0.18,0.82,0.36,0.18,0.882404
+Tajima-Pi lg,0.145,0.855,0.29,0.145,1.240558
+Multinomial-Likelihood lg,0.98,0.02,0.04,0.98,2.135188
+Number Invariant Sites Excluding Ambiguous WG,0.885,0.15,0.3,0.8675,1.031422
+Max GC WG,0.225,0.775,0.45,0.225,0.8331887
+Max GC Excluding Ambiguous WG,0.235,0.765,0.47,0.235,0.8511269
+Max Invariant Block Length Excluding Ambiguous WG,0.285,0.94,0.57,0.1725,0.6271209
+Max Pairwise Difference WG,0.74,0.28,0.56,0.73,0.5945518
+Max Variable Block Length Excluding Ambiguous WG,0.575,0.585,1.15,0.495,0
+Min GC Excluding Ambiguous WG,0,1,0,0,5.252087
+Number Invariable Block Excluding Ambiguous WG,0.975,0.03,0.06,0.9725,1.786092
+Mean GC WG,0.025,0.975,0.05,0.025,2.028124
+Mean GC 1 WG,0.1,0.9,0.2,0.1,1.630137
+Mean GC 2 WG,0,1,0,0,3.975048
+Mean GC 3 WG,0.9,0.1,0.2,0.9,1.194731
+Var GC WG,0.025,0.975,0.05,0.025,1.810061
+Var GC 1 WG,0.1,0.9,0.2,0.1,1.535305
+Var GC 2 WG,0,1,0,0,3.406934
+Var GC 3 WG,0.93,0.07,0.14,0.93,1.481202
+Tajima-D WG,0.355,0.645,0.71,0.355,0.3820713
+Tajima-Pi WG,0.45,0.55,0.9,0.45,0.5539061
+Multinomial-Likelihood WG,0.6,0.4,0.8,0.6,0.2307982
+Tip State Frequency 0,1,0,0,1,8.029265
+Tip State Frequency 1,0,1,0,0,5.999152
+Tip State Frequency 2,0,1,0,0,2.645522
+Tip State Frequency 3,0.36,0.64,0.72,0.36,0.4541602
+Tip State Frequency 4,0.77,0.23,0.46,0.77,0.658417
+Tip State Frequency 5,0.455,0.545,0.91,0.455,0.2106996
+Tip State Frequency 6,0.765,0.235,0.47,0.765,0.09976244
+Number Invariant Sites Morpho Excluding Ambiguous,0,1,0,0,2.65606
+Max Pairwise Difference Morpho,0.04,0.98,0.08,0.03,1.801472
