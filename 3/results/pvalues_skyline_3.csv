@@ -1,0 +1,38 @@
+Statistic,Lower 1-tailed,Upper 1-tailed,Two-tailed,Midpoint,Effect Size
+Number Invariant Sites,0,1,0,0,inf
+Number Invariant Sites Excluding Ambiguous,1,0,0,1,26.98909
+Segregating-Sites,1,1,2,0.5,nan
+Max GC,1,0,0,1,64.71132
+Max GC Excluding Ambiguous,1,0,0,1,43.90437
+Max Invariant Block Length,0,1,0,0,inf
+Max Invariant Block Length Excluding Ambiguous,1,0,0,1,52.57375
+Max Pairwise Difference,0,1,0,0,21.85166
+Max Pairwise Difference Excluding Ambiguous,1,1,2,0.5,nan
+Max Variable Block Length,1,0,0,1,inf
+Max Variable Block Length Excluding Ambiguous,0.960199,0.05970149,0.119403,0.9502488,2.145099
+Min GC,1,1,2,0.5,nan
+Min GC Excluding Ambiguous,1,0,0,1,43.8884
+Min Pairwise Difference,1,1,2,0.5,nan
+Min Pairwise Difference Excluding Ambiguous,1,1,2,0.5,nan
+Number Invariable Block,0,1,0,0,inf
+Number Invariable Block Excluding Ambiguous,0,1,0,0,23.80261
+Mean GC,1,0,0,1,357.4887
+Mean GC Excluding Ambiguous,1,1,2,0.5,nan
+Mean GC 1,1,0,0,1,210.3587
+Mean GC 1 Excluding Ambiguous,1,1,2,0.5,nan
+Mean GC 2,0.920398,0.08457711,0.1691542,0.9179104,1.416143
+Mean GC 2 Excluding Ambiguous,1,1,2,0.5,nan
+Mean GC 3,1,0,0,1,185.1205
+Mean GC 3 Excluding Ambiguous,1,1,2,0.5,nan
+Var GC,1,0,0,1,383.9456
+Var GC Excluding Ambiguous,1,1,2,0.5,nan
+Var GC 1,1,0,0,1,223.5773
+Var GC 1 Excluding Ambiguous,1,1,2,0.5,nan
+Var GC 2,0.9552239,0.04975124,0.09950249,0.9527363,1.620327
+Var GC 2 Excluding Ambiguous,1,1,2,0.5,nan
+Var GC 3,1,0,0,1,202.4954
+Var GC 3 Excluding Ambiguous,1,1,2,0.5,nan
+Theta,1,1,2,0.5,0
+Tajima-D,0.6517413,0.3532338,0.7064677,0.6492537,0.4176197
+Tajima-Pi,1,0,0,1,3.194402
+Multinomial-Likelihood,1,0,0,1,11.65211

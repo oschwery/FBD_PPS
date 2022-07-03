@@ -23,29 +23,29 @@ file1 = output_dir + "summarize_trees_" + target + ".csv"
 print("Summarising test statistics for...")
 
 write(file=file1,
-    "tree_length_delta_time",
-    "branch_length_min_delta_time",
-    "branch_length_max_delta_time",
-    "branch_length_median_delta_time",
-    "branch_length_var_delta_time",
-    "node_age_min_delta_time",
-    "node_age_max_delta_time",
-    "node_age_median_delta_time",
-    "node_age_var_delta_time",
-    "EDR_min_delta_time",
-    "EDR_max_delta_time",
-    "EDR_median_delta_time",
-    "EDR_var_delta_time",
-    "InverseES_min_delta_time",
-    "InverseES_max_delta_time",
-    "InverseES_median_delta_time",
-    "InverseES_var_delta_time",
-    "gamma_stat_time",
-    "Colless_index_time",
-    "num_lineages_surviving_time",
+    "tree_length",
+    "branch_length_min",
+    "branch_length_max",
+    "branch_length_median",
+    "branch_length_var",
+    "node_age_min",
+    "node_age_max",
+    "node_age_median",
+    "node_age_var",
+    "EDR_min",
+    "EDR_max",
+    "EDR_median",
+    "EDR_var",
+    "InverseES_min",
+    "InverseES_max",
+    "InverseES_median",
+    "InverseES_var",
+    "gamma_stat",
+    "Colless_index",
+    "num_lineages_surviving",
     "root_age",
     "n_sampled_anc",
-    "n_fossils"
+    "n_fossils",
     sep=",",
     append=FALSE)
 write(file=file1, "\n", sep=",", append=TRUE)
@@ -59,14 +59,14 @@ if (target == "PPS") {
 } else if (target == "FossSim") {
     tree = readTrees(input_dir + "FossSim.trees")
 }
-print("loaded trees")
+print("loaded " + tree.size() + " trees")
 
 for (i in 1:tree.size()) {
     ntips = tree[i].ntips()
     nnodes = tree[i].nnodes()
     node_ages = [0]
     for (j in (ntips +1):nnodes) {
-        node_ages[j - ntips] = tree[i].nodeAge[j]
+        node_ages[j - ntips] = tree[i].nodeAge(j)
     }
     bl = [0]
     for (j in 1:(nnodes-1)) {
@@ -75,7 +75,7 @@ for (i in 1:tree.size()) {
     edr = tree[i].calculateEDR()
     es = tree[i].getInverseES()
 
-    print("Starting calc-while-you-write part 1")
+    print("Starting calc-while-you-write part...")
     write(file=file1,
           tree[i].treeLength(),
           min(bl),
@@ -103,7 +103,7 @@ for (i in 1:tree.size()) {
           sep=",",
           append=TRUE)
         write(file=file1, "\n", sep=",", append=TRUE)
-        print("done writing results 1 to file")
+        print("done writing results " + i + " to file")
 }
 #    clear(tree)
 

@@ -13,7 +13,7 @@
 #######################
 # mcmc generations
 gens = 2000000
-
+printgens = 10
 # Create the full list of taxa (including all fossils and extant species #
 taxa <- readTaxonData("Data/taxa.tsv")
 
@@ -63,20 +63,20 @@ source("scripts/model_Morph_TEFBD.Rev") # Morphological character change model
 mymodel = model(rates_cytb[i])
 # Create a vector of monitors #
 # 1. for the full model #
-monitors.append( mnModel(filename="output/skyline.log", printgen=10))
+monitors.append( mnModel(filename="output/skyline.log", printgen=printgens))
 ## Checkpoint addition ##
-monitors.append(mnStochasticVariable(filename="output/mcmc-stoch.log", printgen=10))
+monitors.append(mnStochasticVariable(filename="output/mcmc-stoch.log", printgen=printgens))
 
 #trace = readStochasticVariableTrace(file="output/mcmc-stoch.log")
 #mymcmc.initializeFromTrace(trace)
 # 2. the tree #
-monitors.append( mnFile(filename="output/skyline.trees", printgen=10, fbd_tree))
+monitors.append( mnFile(filename="output/skyline.trees", printgen=printgens, fbd_tree))
 # 3. and a few select parameters to be printed to the screen #
-monitors.append( mnScreen(printgen=10,  num_samp_anc, origin_time))
-#monitors.append( mnScreen(printgen=10)
+monitors.append( mnScreen(printgen=printgens,  num_samp_anc, origin_time))
+#monitors.append( mnScreen(printgen=printgens)
 
 # 4. the .var file for the stochastic variables (should include the tree)
-monitors.append( mnStochasticVariable(filename="output/antsSA.var", printgen=10))
+monitors.append( mnStochasticVariable(filename="output/antsSA.var", printgen=printgens))
 
 # Initialize the MCMC object #
 mymcmc = mcmc(mymodel, monitors, moves)
